@@ -67,14 +67,20 @@
 	        android:layout_height="wrap_content"
 	        android:text="To: "
 	        android:textAppearance="?android:attr/textAppearanceMedium" />
-	
-	    
-	   	<EditText
-	        android:id="@+id/editTextTo"
-	        android:layout_width="150dp"
-	        android:layout_height="wrap_content"
-	        android:ems="10"
-	        android:inputType="textPersonName" />"
+
+	     <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextViewTo"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Enter location name"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:ems="10"
+                android:lines="1" >
+           </AutoCompleteTextView>
+	     
+
    	</LinearLayout>
         <LinearLayout 
 	    android:orientation="horizontal" 

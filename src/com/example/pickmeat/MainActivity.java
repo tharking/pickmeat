@@ -74,7 +74,7 @@ public class MainActivity extends Activity {
     }
     private void loadData(){
     	locations.clear();
-        List<DataAccess.LiftItem> liftitems = datasource.getAllLiftItems();
+        List<DataAccess.LiftItem> liftitems = datasource.getLiftsByCriteria(DataHelper.LIFT_COLUMN_LIFTOR + " = ''");
     	for(int i=0;i<liftitems.size();i++){
     		DataAccess.LiftItem liftItem = liftitems.get(i);
     		Lift lift = CreateLift(liftItem);
@@ -108,6 +108,18 @@ public class MainActivity extends Activity {
     public void addRequest(View view) {
 	   	Intent intent = new Intent(MainActivity.this, NewLiftRequest.class);
     	startActivity(intent);
+	}
+
+    public void acceptLift(View view) {
+    	int[] tag_array = (int [])view.getTag();
+	   	int groupPosition = tag_array[0];
+	   	int childPosition = tag_array[1];
+
+	   	long lift_id_to_accept = liftListAdapter.locations.get(groupPosition).liftList.get(childPosition).lift_id;
+	   	DataAccess.LiftItem liftitem_to_be_accepted = datasource.getLiftItem(lift_id_to_accept);  
+	   	datasource.acceptLiftItem(lift_id_to_accept, "Kamal");
+    	liftListAdapter.locations.get(groupPosition).liftList.remove(childPosition);
+    	liftListAdapter.notifyDataSetInvalidated();
 	}
 
 	

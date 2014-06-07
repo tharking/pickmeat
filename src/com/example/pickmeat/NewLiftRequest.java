@@ -1,18 +1,27 @@
 
 package com.example.pickmeat;
 
+import java.util.ArrayList;
+
 import com.example.pickmeat.DataAccess.DataSource;
 
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnKeyListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class NewLiftRequest extends Activity {
@@ -28,6 +37,19 @@ public class NewLiftRequest extends Activity {
     	datasource = dataAccess.new DataSource(this);
         datasource.open();
         
+        ArrayList<String> locations = datasource.getAllLocations();
+        String[] data = locations.toArray(new String[locations.size()]);
+    	ArrayAdapter<?> locationAdapter = new ArrayAdapter<Object>(this, android.R.layout.simple_dropdown_item_1line, data);
+		AutoCompleteTextView edtTitle = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewTo);
+        
+        edtTitle.setAdapter(locationAdapter);
+        edtTitle.setThreshold(1);
+
+		EditText from = (EditText) findViewById(R.id.editTextFrom);
+		from.setText("Microsoft");
+		EditText liftee = (EditText) findViewById(R.id.editTextLiftee);
+		liftee.setText("Kamal");
+
         hookSaveButtonEvents();
 	}
 
@@ -37,7 +59,7 @@ public class NewLiftRequest extends Activity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
         		EditText from = (EditText) findViewById(R.id.editTextFrom);
-        		EditText to = (EditText) findViewById(R.id.editTextTo);
+        		AutoCompleteTextView to = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewTo);
         		EditText liftee = (EditText) findViewById(R.id.editTextLiftee);
         		EditText time = (EditText) findViewById(R.id.editTextTime);
         		datasource.createLiftItem(time.getText().toString(), from.getText().toString(), to.getText().toString(), liftee.getText().toString(), "", "Free");

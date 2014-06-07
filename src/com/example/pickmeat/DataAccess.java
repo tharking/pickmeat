@@ -3,17 +3,20 @@ package com.example.pickmeat;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.util.Log;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class DataAccess {
 	private static final String DATABASE_NAME = "lift_database.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	
 	public class DataHelper extends SQLiteOpenHelper {
 
@@ -104,8 +107,8 @@ public class DataSource {
 	  {
 			  createLiftItem("6:30 PM", "Microsoft", "Miyapur", "Kamal", "", "Free");
 			  createLiftItem("6:40 PM", "Microsoft", "Hafeezpet", "Pankaj", "", "Free");
-			  createLiftItem("6:50 PM", "Microsoft", "Kondapur", "Manoj", "", "Dutch");
-			  createLiftItem("6:60 PM", "Microsoft", "Miyapur", "Anil", "", "Free");
+			  createLiftItem("6:50 PM", "Microsoft", "Kondapur", "Manoj", "Picked", "Dutch");
+			  createLiftItem("6:60 PM", "Microsoft", "Miyapur", "Anil", "Picked", "Free");
 			  createLiftItem("6:10 PM", "Microsoft", "Kondapur", "Mahiram", "", "Free");
 			  createLiftItem("7:30 PM", "Microsoft", "Miyapur", "Mukesh", "", "Free");
 			  createLiftItem("8:30 PM", "Microsoft", "Miyapur", "Ganpat", "", "Dutch");
@@ -146,6 +149,19 @@ public class DataSource {
 	        + " = " + id, null);
 	  }
 
+	  public void acceptLiftItem(long lift_id, String liftor) {
+		  LiftItem liftItem = getLiftItem(lift_id);
+		    System.out.println("Lift item accepted with id: " + liftItem.getId());
+		    ContentValues values = new ContentValues();
+		    values.put(DataHelper.LIFT_COLUMN_TIME, liftItem.getTime());
+		    values.put(DataHelper.LIFT_COLUMN_FROM, liftItem.getFrom());
+		    values.put(DataHelper.LIFT_COLUMN_TO, liftItem.getTo());
+		    values.put(DataHelper.LIFT_COLUMN_LIFTEE, liftItem.getLiftee());
+		    values.put(DataHelper.LIFT_COLUMN_LIFTOR, liftor);
+		    values.put(DataHelper.LIFT_COLUMN_TYPE, liftItem.getTime());
+		    database.update(DataHelper.TABLE_LIFT, values, DataHelper.LIFT_COLUMN_ID + " = " + liftItem.getId(), null);
+	  }
+
 	  public List<LiftItem> getLiftsByCriteria(String selectionCriteria) {
 		    List<LiftItem> liftItems = new ArrayList<LiftItem>();
 
@@ -169,6 +185,29 @@ public class DataSource {
 		    return liftItems;
 		  }
 
+	  public ArrayList<String> getAllLocations() {
+		  String[] locationColumns = { 
+				  DataHelper.LIFT_COLUMN_TO};
+		  ArrayList<String> locations = new ArrayList<String>();
+		  
+		    try {
+			    Cursor cursor = database.query(true, DataHelper.TABLE_LIFT, locationColumns, null, null, null, null, null, null, null);
+		
+			    cursor.moveToFirst();
+			    while (!cursor.isAfterLast()) {
+			    	locations.add(cursor.getString(0));
+			    	cursor.moveToNext();
+			    }
+			    // make sure to close the cursor
+			    cursor.close();
+			 }
+			 catch (Exception ex)
+			 {
+				 locations.add("EMPTY");
+				 return null;
+			 }
+		    return locations;
+	  }
 	  
 	  public List<LiftItem> getAllLiftItems() {
 	    List<LiftItem> liftItems = new ArrayList<LiftItem>();

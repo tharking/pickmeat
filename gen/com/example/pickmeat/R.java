@@ -41,10 +41,10 @@ public final class R {
         public static final int acceptView=0x7f090008;
         public static final int action_settings=0x7f090010;
         public static final int addRequest=0x7f090006;
+        public static final int autoCompleteTextViewTo=0x7f090003;
         public static final int editTextFrom=0x7f090002;
         public static final int editTextLiftee=0x7f090001;
         public static final int editTextTime=0x7f090004;
-        public static final int editTextTo=0x7f090003;
         public static final int liftMidLayout=0x7f090009;
         public static final int location=0x7f09000f;
         public static final int recipeClockLayout=0x7f09000d;
