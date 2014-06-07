@@ -5,17 +5,17 @@
 	    android:layout_height="fill_parent"
     android:background="@color/page_bg"
 	    android:gravity="center"
-	   	android:padding="10dp"
+	   	android:padding="3dp"
 	    >
 	     <TextView android:id="@+id/acceptView"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
 	        android:layout_weight="1"
-	        android:textSize="14dp"
+	        android:textSize="21dp"
 	        android:textColor="#FFFFFF"
-	        android:padding="10dp"
+	        android:padding="2dp"
 	    	android:gravity="left"
-	        android:text="ACCEPT\nLIFT"
+	        android:text="ACCEPT LIFT"
 	        android:onClick="acceptLift"
 	        android:background="#0ABB8E" />
            
