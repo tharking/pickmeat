@@ -1,0 +1,15 @@
+<resources>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="blue_actionbar">#06718F</color>
+    <color name="menu_background">#06718F</color>
+	<color name="white">#ffffff</color>
+	<color name="light_blue">#BBDDFF</color>
+	<color name="header_bg"> #04485C</color>
+	<color name="header_fg"> #F1F3D8</color>
+	<color name="ratings_bg"> #4CCEEC</color>
+	<color name="ratings_fg"> #DBE0FA</color>
+	<color name="page_bg">#FEFFF1</color>
+	<color name="page_fg">#444444</color>
+	
+</resources>
