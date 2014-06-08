@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import com.example.pickmeat.DataAccess.DataSource;
+import com.example.pickmeat.DataAccess.Setting;
 
 import android.os.Bundle;
 import android.app.ActionBar;
@@ -46,14 +47,8 @@ public class NewLiftRequest extends Activity {
         String[] data = locations.toArray(new String[locations.size()]);
     	ArrayAdapter<?> locationAdapter = new ArrayAdapter<Object>(this, android.R.layout.simple_dropdown_item_1line, data);
 		AutoCompleteTextView edtTitle = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewTo);
-        
         edtTitle.setAdapter(locationAdapter);
         edtTitle.setThreshold(1);
-
-		EditText from = (EditText) findViewById(R.id.editTextFrom);
-		from.setText("Microsoft");
-		EditText liftee = (EditText) findViewById(R.id.editTextLiftee);
-		liftee.setText("Kamal");
 
 		TimePicker myTimePicker = (TimePicker) findViewById(R.id.editTextTimePicker);
 	    myTimePicker.setIs24HourView(true);
@@ -67,9 +62,7 @@ public class NewLiftRequest extends Activity {
 		Button saveButton = (Button) findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-        		EditText from = (EditText) findViewById(R.id.editTextFrom);
         		AutoCompleteTextView to = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewTo);
-        		EditText liftee = (EditText) findViewById(R.id.editTextLiftee);
         		TimePicker myTimePicker = (TimePicker) findViewById(R.id.editTextTimePicker);
         		Calendar rightNow = Calendar.getInstance();
         		Calendar newTime = Calendar.getInstance();
@@ -78,16 +71,7 @@ public class NewLiftRequest extends Activity {
         			rightNow.add(Calendar.DAY_OF_MONTH, 1);
         			newTime.set(rightNow.get(Calendar.YEAR), rightNow.get(Calendar.MONTH), rightNow.get(Calendar.DATE), myTimePicker.getCurrentHour(), myTimePicker.getCurrentMinute());
         		}
-        		if(from.getText().toString().equalsIgnoreCase("")){
-        			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
-                    .setMessage("Please provide pick up from location")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                                 dialog.cancel();
-                        }
-                    }).show();
-        		}
-        		else if(to.getText().toString().equalsIgnoreCase("")){
+        		if(to.getText().toString().equalsIgnoreCase("")){
         			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
                     .setMessage("Please enter where you want to go")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -96,18 +80,8 @@ public class NewLiftRequest extends Activity {
                         }
                     }).show();
         		}
-        		else if(liftee.getText().toString().equalsIgnoreCase("")){
-        			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
-                    .setMessage("Please provide your name")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                                 dialog.cancel();
-                        }
-                    }).show();
-        			return;
-        		}
         		else {
-	        		datasource.createLiftItem(newTime, from.getText().toString(), to.getText().toString(), liftee.getText().toString(), "", "Free");
+	        		datasource.createLiftItem(newTime, datasource.getSetting(Setting.UserLocation), to.getText().toString(), datasource.getSetting(Setting.UserName), "", "Free");
 	        		Intent intent = new Intent(NewLiftRequest.this, MainActivity.class);
 		        	startActivity(intent);
         		}

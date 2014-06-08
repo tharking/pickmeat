@@ -16,58 +16,14 @@
 	    android:paddingLeft="5dp" >
 
 	     <TextView
-	        android:layout_width="100dp"
-	        android:layout_height="wrap_content"
-	        android:text="Your Name: "
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
-	
-	    
-   		<EditText
-	        android:id="@+id/editTextLiftee"
-	        android:layout_width="150dp"
-	        android:layout_height="wrap_content"
-	        android:ems="10"
-	        android:inputType="textPersonName" />
-   	</LinearLayout>"
-    <LinearLayout 
-	    android:orientation="horizontal" 
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:gravity="left"
-	   	android:paddingRight="5dp"
-	    android:paddingLeft="5dp" >
-
-	     <TextView
-	        android:layout_width="100dp"
-	        android:layout_height="wrap_content"
-	        android:text="From: "
-	        android:textAppearance="?android:attr/textAppearanceMedium" />
-	
-	    
-	   	<EditText
-	        android:id="@+id/editTextFrom"
-	        android:layout_width="150dp"
-	        android:layout_height="wrap_content"
-	        android:ems="10"
-	        android:inputType="textPersonName" />
-   	</LinearLayout>
-    <LinearLayout 
-	    android:orientation="horizontal" 
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:gravity="left"
-	   	android:paddingRight="5dp"
-	    android:paddingLeft="5dp" >
-
-	     <TextView
-	        android:layout_width="100dp"
+	        android:layout_width="50dp"
 	        android:layout_height="wrap_content"
 	        android:text="To: "
 	        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 	     <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewTo"
-                android:layout_width="150dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Enter location name"
@@ -88,7 +44,7 @@
 	    android:paddingLeft="5dp" >
 
 	     <TextView
-	        android:layout_width="100dp"
+	        android:layout_width="50dp"
 	        android:layout_height="fill_parent"
 	    	android:gravity="center_vertical"
 	        android:text="Time: "
@@ -96,7 +52,7 @@
 	
 		<TimePicker 
 	    	android:id="@+id/editTextTimePicker"
-	    	android:layout_width="150dp"
+	    	android:layout_width="250dp"
 	    	android:layout_height="wrap_content" >
 		</TimePicker>    
 	        

@@ -1,0 +1,110 @@
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/page_bg"
+    android:padding="10dp"
+    tools:context=".SettingsActivity" >
+    
+    <LinearLayout 
+	    android:orientation="horizontal" 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:gravity="left"
+	   	android:paddingRight="5dp"
+	    android:paddingLeft="5dp" >
+
+	     <TextView
+	        android:layout_width="100dp"
+	        android:layout_height="wrap_content"
+	        android:text="Your Name: "
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	    
+   		<EditText
+	        android:id="@+id/editTextUserName"
+	        android:layout_width="150dp"
+	        android:layout_height="wrap_content"
+	        android:ems="10"
+	        android:inputType="textPersonName" />
+   	</LinearLayout>"
+    <LinearLayout 
+	    android:orientation="horizontal" 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:gravity="left"
+	   	android:paddingRight="5dp"
+	    android:paddingLeft="5dp" >
+
+	     <TextView
+	        android:layout_width="100dp"
+	        android:layout_height="wrap_content"
+	        android:text="User Location: "
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	
+	    
+	   	<EditText
+	        android:id="@+id/editTextUserLocation"
+	        android:layout_width="150dp"
+	        android:layout_height="wrap_content"
+	        android:ems="10"
+	        android:inputType="textPersonName" />
+   	</LinearLayout>
+    <LinearLayout 
+	    android:orientation="horizontal" 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:gravity="left"
+	   	android:paddingRight="5dp"
+	    android:paddingLeft="5dp" >
+
+	     <TextView
+	        android:layout_width="100dp"
+	        android:layout_height="wrap_content"
+	        android:text="Default Pickup Location: "
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	   	<EditText
+	        android:id="@+id/editTextLastPickupLocation"
+	        android:layout_width="150dp"
+	        android:layout_height="wrap_content"
+	        android:ems="10"
+	        android:inputType="textPersonName" />
+	     	     
+
+   	</LinearLayout>
+        <LinearLayout 
+	    android:orientation="horizontal" 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:gravity="left"
+	   	android:paddingRight="5dp"
+	    android:paddingLeft="5dp" >
+
+	     <TextView
+	        android:layout_width="100dp"
+	        android:layout_height="fill_parent"
+	    	android:gravity="center_vertical"
+	        android:text="UserID: "
+	        android:textAppearance="?android:attr/textAppearanceMedium" />
+	   	<EditText
+	        android:id="@+id/editTextUserID"
+	        android:layout_width="150dp"
+	        android:layout_height="wrap_content"
+	        android:ems="10"
+	        android:inputType="textPersonName" />
+	     	
+	        
+   	</LinearLayout>
+	<Button
+        android:id="@+id/saveButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+		android:textSize="21dp"
+	    android:textColor="#FFFFFF"
+	    android:padding="2dp"
+	    android:background="#0ABB8E"
+        android:text="Save" />
+
+</LinearLayout>

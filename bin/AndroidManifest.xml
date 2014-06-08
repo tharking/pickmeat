@@ -26,7 +26,11 @@
             android:name="com.example.pickmeat.NewLiftRequest"
             android:label="New Pickup Request" >
         </activity>
-       
+        <activity
+            android:name="com.example.pickmeat.SettingsActivity"
+            android:label="Preferences" >
+        </activity>
+        
     </application>
 
 </manifest>
