@@ -1,6 +1,7 @@
 package com.example.pickmeat;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import com.example.pickmeat.DataAccess;
@@ -86,7 +87,14 @@ public class MainActivity extends Activity {
     }
     private void loadData(){
     	locations.clear();
-        List<DataAccess.LiftItem> liftitems = datasource.getLiftsByCriteria(DataHelper.LIFT_COLUMN_LIFTOR + " = '' AND "+DataHelper.LIFT_COLUMN_FROM+" = '"+datasource.getSetting(DataAccess.Setting.UserLocation)+"'");
+    	Calendar onehourback = Calendar.getInstance();
+    	onehourback.add(Calendar.MINUTE, -30);
+    	Calendar twelvehourlater = Calendar.getInstance();
+    	twelvehourlater.add(Calendar.HOUR, 12);
+        List<DataAccess.LiftItem> liftitems = datasource.getLiftsByCriteria(DataHelper.LIFT_COLUMN_LIFTOR + " = '' AND "
+        		+DataHelper.LIFT_COLUMN_FROM+" = '"+datasource.getSetting(DataAccess.Setting.UserLocation)+"' AND "
+        		+DataHelper.LIFT_COLUMN_TIME+ " > '"+DataAccess.getStringFromDate(onehourback)+"' AND "
+        		+DataHelper.LIFT_COLUMN_TIME+ " < '"+DataAccess.getStringFromDate(twelvehourlater)+"'");
     	for(int i=0;i<liftitems.size();i++){
     		DataAccess.LiftItem liftItem = liftitems.get(i);
     		Lift lift = CreateLift(liftItem);
