@@ -2,6 +2,7 @@ package com.example.pickmeat;
 
 import java.util.ArrayList;
 
+import com.example.pickmeat.DataAccess;
 import com.example.pickmeat.DataAccess.DataHelper;
 
 import android.content.Context;
@@ -139,7 +140,7 @@ public class LiftListAdapter extends BaseExpandableListAdapter {
 	               	 midLayout.setTag(tagT_array);
 	               	 ((TextView)view.findViewById(R.id.txtFrom)).setText(lift.from);
 	               	 ((TextView)view.findViewById(R.id.txtTo)).setText(lift.to);
-	               	 ((TextView)view.findViewById(R.id.txtTime)).setText(lift.time);
+	               	 ((TextView)view.findViewById(R.id.txtTime)).setText(DataAccess.getHourMinuteStringFromDate(lift.time));
                         break;
                 case 1:
                     view = inflater.inflate (R.layout.widget_lift_item_accept, null);

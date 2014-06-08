@@ -1,6 +1,11 @@
 package com.example.pickmeat;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.annotation.TargetApi;
@@ -16,7 +21,31 @@ import android.util.Log;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class DataAccess {
 	private static final String DATABASE_NAME = "lift_database.db";
-	private static final int DATABASE_VERSION = 5;
+	private static final int DATABASE_VERSION = 6;
+	
+	public static String getStringFromDate(Calendar in_time){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return dateFormat.format(in_time.getTime());
+	  }
+	  
+	public static String getHourMinuteStringFromDate(Calendar in_time){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+		return dateFormat.format(in_time.getTime());
+	  }
+
+	public static Calendar getCalendarFromString(String in_time){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		try {
+			date = dateFormat.parse(in_time);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal;
+	  }
 	
 	public class DataHelper extends SQLiteOpenHelper {
 
@@ -33,7 +62,7 @@ public class DataAccess {
 	  // Database creation sql statement
 	  private static final String LIFT_DATABASE_CREATE = "create table " + TABLE_LIFT + "(" 
 		  + LIFT_COLUMN_ID + " integer primary key autoincrement, " 
-		  + LIFT_COLUMN_TIME + " text not null, "
+		  + LIFT_COLUMN_TIME + " timestamp not null DEFAULT current_timestamp, "
 		  + LIFT_COLUMN_FROM + " text, "
 		  + LIFT_COLUMN_TO + " text, "
 		  + LIFT_COLUMN_LIFTEE + " text, "
@@ -67,6 +96,7 @@ public class DataAccess {
 	  {
 		  db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIFT);
 	  }
+	  
 	} 
 
 public class DataSource {
@@ -102,20 +132,29 @@ public class DataSource {
 		  database = databse;
 		  fillLift();
 	  }
-	  	  
+	  
+	  
 	  public void fillLift()
 	  {
-			  createLiftItem("6:30", "Microsoft", "Miyapur", "Kamal", "", "Free");
-			  createLiftItem("6:40", "Microsoft", "Hafeezpet", "Pankaj", "", "Free");
-			  createLiftItem("6:50", "Microsoft", "Kondapur", "Manoj", "", "Dutch");
-			  createLiftItem("6:60", "Microsoft", "Miyapur", "Anil", "", "Free");
-			  createLiftItem("6:10", "Microsoft", "Kondapur", "Mahiram", "", "Free");
-			  createLiftItem("7:30", "Microsoft", "Miyapur", "Mukesh", "", "Free");
-			  createLiftItem("8:30", "Microsoft", "Miyapur", "Ganpat", "", "Dutch");
+		  	  Calendar rightNow = Calendar.getInstance();
+		  	  rightNow.add(Calendar.MINUTE, 20);
+		  	  createLiftItem(rightNow, "Microsoft", "Miyapur", "Kamal", "", "Free");
+		  	  rightNow.add(Calendar.MINUTE, 20);
+		  	  createLiftItem(rightNow, "Microsoft", "Hafeezpet", "Pankaj", "", "Free");
+		  	  rightNow.add(Calendar.MINUTE, 20);
+			  createLiftItem(rightNow, "Microsoft", "Kondapur", "Manoj", "", "Dutch");
+		  	  rightNow.add(Calendar.MINUTE, 20);
+			  createLiftItem(rightNow, "Microsoft", "Miyapur", "Anil", "", "Free");
+		  	  rightNow.add(Calendar.MINUTE, 20);
+			  createLiftItem(rightNow, "Microsoft", "Kondapur", "Mahiram", "", "Free");
+		  	  rightNow.add(Calendar.MINUTE, 20);
+			  createLiftItem(rightNow, "Microsoft", "Miyapur", "Mukesh", "", "Free");
+		  	  rightNow.add(Calendar.MINUTE, 20);
+			  createLiftItem(rightNow, "Microsoft", "Miyapur", "Ganpat", "", "Dutch");
 	  }
 	  
 	  public LiftItem createLiftItem(
-			  String time,
+			  Calendar time,
 			  String from,
 			  String to,
 			  String liftee,
@@ -124,7 +163,7 @@ public class DataSource {
 			  ) {
 		  
 		    ContentValues values = new ContentValues();
-		    values.put(DataHelper.LIFT_COLUMN_TIME, time);
+		    values.put(DataHelper.LIFT_COLUMN_TIME, getStringFromDate(time));
 		    values.put(DataHelper.LIFT_COLUMN_FROM, from);
 		    values.put(DataHelper.LIFT_COLUMN_TO, to);
 		    values.put(DataHelper.LIFT_COLUMN_LIFTEE, liftee);
@@ -153,12 +192,12 @@ public class DataSource {
 		  LiftItem liftItem = getLiftItem(lift_id);
 		    System.out.println("Lift item accepted with id: " + liftItem.getId());
 		    ContentValues values = new ContentValues();
-		    values.put(DataHelper.LIFT_COLUMN_TIME, liftItem.getTime());
+		    values.put(DataHelper.LIFT_COLUMN_TIME, liftItem.getTimeString());
 		    values.put(DataHelper.LIFT_COLUMN_FROM, liftItem.getFrom());
 		    values.put(DataHelper.LIFT_COLUMN_TO, liftItem.getTo());
 		    values.put(DataHelper.LIFT_COLUMN_LIFTEE, liftItem.getLiftee());
 		    values.put(DataHelper.LIFT_COLUMN_LIFTOR, liftor);
-		    values.put(DataHelper.LIFT_COLUMN_TYPE, liftItem.getTime());
+		    values.put(DataHelper.LIFT_COLUMN_TYPE, liftItem.getType());
 		    database.update(DataHelper.TABLE_LIFT, values, DataHelper.LIFT_COLUMN_ID + " = " + liftItem.getId(), null);
 	  }
 
@@ -262,7 +301,7 @@ public class DataSource {
 	    LiftItem liftItem = 
 	    	new LiftItem(
     			cursor.getLong(0),
-    			cursor.getString(1),
+    			DataAccess.getCalendarFromString(cursor.getString(1)),
     			cursor.getString(2),
     			cursor.getString(3),
     			cursor.getString(4),
@@ -289,7 +328,7 @@ public class DataSource {
 
 public class LiftItem {
 	  private long _id;
-	  private String _time;
+	  private Calendar _time;
 	  private String _from;
 	  private String _to;
 	  private String _liftee;
@@ -298,7 +337,7 @@ public class LiftItem {
 	  
 	  public LiftItem(
 		  long id,
-		  String time,
+		  Calendar time,
 		  String from,
 		  String to,
 		  String liftee,
@@ -315,7 +354,8 @@ public class LiftItem {
 	  }
 	  
 	  public long getId() { return _id; }
-	  public String getTime() { return _time; }
+	  public Calendar getTime() { return _time; }
+	  public String getTimeString() { return DataAccess.getStringFromDate(_time); }
 	  public String getFrom() { return _from; }
 	  public String getTo() { return _to; }
 	  public String getLiftee() { return _liftee; }
@@ -325,7 +365,7 @@ public class LiftItem {
 	  // Will be used by the ArrayAdapter in the ListView
 	  @Override
 	  public String toString() {
-	    return _time;
+	    return DataAccess.getStringFromDate(_time);
 	  }
 	} 
 }

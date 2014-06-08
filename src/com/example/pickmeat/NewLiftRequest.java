@@ -2,6 +2,8 @@
 package com.example.pickmeat;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.example.pickmeat.DataAccess.DataSource;
 
@@ -69,7 +71,13 @@ public class NewLiftRequest extends Activity {
         		AutoCompleteTextView to = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewTo);
         		EditText liftee = (EditText) findViewById(R.id.editTextLiftee);
         		TimePicker myTimePicker = (TimePicker) findViewById(R.id.editTextTimePicker);
-        		String time = myTimePicker.getCurrentHour().toString()+":"+myTimePicker.getCurrentMinute().toString();        
+        		Calendar rightNow = Calendar.getInstance();
+        		Calendar newTime = Calendar.getInstance();
+        		newTime.set(rightNow.get(Calendar.YEAR), rightNow.get(Calendar.MONTH), rightNow.get(Calendar.DATE), myTimePicker.getCurrentHour(), myTimePicker.getCurrentMinute());
+        		if(newTime.compareTo(rightNow) < 1){
+        			rightNow.add(Calendar.DAY_OF_MONTH, 1);
+        			newTime.set(rightNow.get(Calendar.YEAR), rightNow.get(Calendar.MONTH), rightNow.get(Calendar.DATE), myTimePicker.getCurrentHour(), myTimePicker.getCurrentMinute());
+        		}
         		if(from.getText().toString().equalsIgnoreCase("")){
         			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
                     .setMessage("Please provide pick up from location")
@@ -99,7 +107,7 @@ public class NewLiftRequest extends Activity {
         			return;
         		}
         		else {
-	        		datasource.createLiftItem(time, from.getText().toString(), to.getText().toString(), liftee.getText().toString(), "", "Free");
+	        		datasource.createLiftItem(newTime, from.getText().toString(), to.getText().toString(), liftee.getText().toString(), "", "Free");
 	        		Intent intent = new Intent(NewLiftRequest.this, MainActivity.class);
 		        	startActivity(intent);
         		}
