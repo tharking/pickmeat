@@ -8,6 +8,8 @@ import com.example.pickmeat.DataAccess.DataSource;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -62,10 +64,48 @@ public class NewLiftRequest extends Activity {
         		AutoCompleteTextView to = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewTo);
         		EditText liftee = (EditText) findViewById(R.id.editTextLiftee);
         		EditText time = (EditText) findViewById(R.id.editTextTime);
-        		datasource.createLiftItem(time.getText().toString(), from.getText().toString(), to.getText().toString(), liftee.getText().toString(), "", "Free");
-        		
-        		Intent intent = new Intent(NewLiftRequest.this, MainActivity.class);
-	        	startActivity(intent);
+        		if(time.getText().toString().equalsIgnoreCase("")){
+        			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
+                    .setMessage("Please provide pick up time")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                                 dialog.cancel();
+                        }
+                    }).show();
+        		}
+        		else if(from.getText().toString().equalsIgnoreCase("")){
+        			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
+                    .setMessage("Please provide pick up from location")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                                 dialog.cancel();
+                        }
+                    }).show();
+        		}
+        		else if(to.getText().toString().equalsIgnoreCase("")){
+        			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
+                    .setMessage("Please enter where you want to go")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                                 dialog.cancel();
+                        }
+                    }).show();
+        		}
+        		else if(liftee.getText().toString().equalsIgnoreCase("")){
+        			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
+                    .setMessage("Please provide your name")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                                 dialog.cancel();
+                        }
+                    }).show();
+        			return;
+        		}
+        		else {
+	        		datasource.createLiftItem(time.getText().toString(), from.getText().toString(), to.getText().toString(), liftee.getText().toString(), "", "Free");
+	        		Intent intent = new Intent(NewLiftRequest.this, MainActivity.class);
+		        	startActivity(intent);
+        		}
             }
         });
 	}

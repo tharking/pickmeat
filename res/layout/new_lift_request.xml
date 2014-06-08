@@ -11,7 +11,6 @@
 	    android:orientation="horizontal" 
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_weight="1"
 	    android:gravity="left"
 	   	android:paddingRight="5dp"
 	    android:paddingLeft="5dp" >
@@ -34,7 +33,6 @@
 	    android:orientation="horizontal" 
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_weight="1"
 	    android:gravity="left"
 	   	android:paddingRight="5dp"
 	    android:paddingLeft="5dp" >
@@ -57,7 +55,6 @@
 	    android:orientation="horizontal" 
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_weight="1"
 	    android:gravity="left"
 	   	android:paddingRight="5dp"
 	    android:paddingLeft="5dp" >
@@ -86,7 +83,6 @@
 	    android:orientation="horizontal" 
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_weight="1"
 	    android:gravity="left"
 	   	android:paddingRight="5dp"
 	    android:paddingLeft="5dp" >
@@ -110,7 +106,10 @@
         android:id="@+id/saveButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+		android:textSize="21dp"
+	    android:textColor="#FFFFFF"
+	    android:padding="2dp"
+	    android:background="#0ABB8E"
         android:text="Save" />
 
 </LinearLayout>

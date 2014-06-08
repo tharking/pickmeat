@@ -38,8 +38,8 @@ public class MainActivity extends Activity {
 		//get reference to the ExpandableListView
 		liftListView = (ExpandableListView) findViewById(R.id.LiftExpandableList);
 
-        View footer = (View)getLayoutInflater().inflate(R.layout.widget_add_lift_button, null);
-        liftListView.addFooterView(footer);
+        View header = (View)getLayoutInflater().inflate(R.layout.widget_add_lift_button, null);
+        liftListView.addHeaderView(header);
 
 		
 		//create the adapter by passing your ArrayList data
