@@ -89,20 +89,19 @@
 
 	     <TextView
 	        android:layout_width="100dp"
-	        android:layout_height="wrap_content"
+	        android:layout_height="fill_parent"
+	    	android:gravity="center_vertical"
 	        android:text="Time: "
 	        android:textAppearance="?android:attr/textAppearanceMedium" />
 	
-	    
-	   	<EditText
-	        android:id="@+id/editTextTime"
-	        android:layout_width="150dp"
-	        android:layout_height="wrap_content"
-	        android:ems="10"
-	        android:inputType="time" />"
+		<TimePicker 
+	    	android:id="@+id/editTextTimePicker"
+	    	android:layout_width="150dp"
+	    	android:layout_height="wrap_content" >
+		</TimePicker>    
+	        
    	</LinearLayout>
-    
-    <Button
+	<Button
         android:id="@+id/saveButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

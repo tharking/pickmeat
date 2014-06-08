@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 public class NewLiftRequest extends Activity {
 
@@ -52,6 +53,10 @@ public class NewLiftRequest extends Activity {
 		EditText liftee = (EditText) findViewById(R.id.editTextLiftee);
 		liftee.setText("Kamal");
 
+		TimePicker myTimePicker = (TimePicker) findViewById(R.id.editTextTimePicker);
+	    myTimePicker.setIs24HourView(true);
+//	    myTimePicker.setCurrentHour(currentHour);
+//	    myTimePicker.setCurrentMinute(currentHour);
         hookSaveButtonEvents();
 	}
 
@@ -63,17 +68,9 @@ public class NewLiftRequest extends Activity {
         		EditText from = (EditText) findViewById(R.id.editTextFrom);
         		AutoCompleteTextView to = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewTo);
         		EditText liftee = (EditText) findViewById(R.id.editTextLiftee);
-        		EditText time = (EditText) findViewById(R.id.editTextTime);
-        		if(time.getText().toString().equalsIgnoreCase("")){
-        			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
-                    .setMessage("Please provide pick up time")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                                 dialog.cancel();
-                        }
-                    }).show();
-        		}
-        		else if(from.getText().toString().equalsIgnoreCase("")){
+        		TimePicker myTimePicker = (TimePicker) findViewById(R.id.editTextTimePicker);
+        		String time = myTimePicker.getCurrentHour().toString()+":"+myTimePicker.getCurrentMinute().toString();        
+        		if(from.getText().toString().equalsIgnoreCase("")){
         			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
                     .setMessage("Please provide pick up from location")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -102,7 +99,7 @@ public class NewLiftRequest extends Activity {
         			return;
         		}
         		else {
-	        		datasource.createLiftItem(time.getText().toString(), from.getText().toString(), to.getText().toString(), liftee.getText().toString(), "", "Free");
+	        		datasource.createLiftItem(time, from.getText().toString(), to.getText().toString(), liftee.getText().toString(), "", "Free");
 	        		Intent intent = new Intent(NewLiftRequest.this, MainActivity.class);
 		        	startActivity(intent);
         		}

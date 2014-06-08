@@ -16,7 +16,7 @@ import android.util.Log;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class DataAccess {
 	private static final String DATABASE_NAME = "lift_database.db";
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 5;
 	
 	public class DataHelper extends SQLiteOpenHelper {
 
@@ -105,13 +105,13 @@ public class DataSource {
 	  	  
 	  public void fillLift()
 	  {
-			  createLiftItem("6:30 PM", "Microsoft", "Miyapur", "Kamal", "", "Free");
-			  createLiftItem("6:40 PM", "Microsoft", "Hafeezpet", "Pankaj", "", "Free");
-			  createLiftItem("6:50 PM", "Microsoft", "Kondapur", "Manoj", "Picked", "Dutch");
-			  createLiftItem("6:60 PM", "Microsoft", "Miyapur", "Anil", "Picked", "Free");
-			  createLiftItem("6:10 PM", "Microsoft", "Kondapur", "Mahiram", "", "Free");
-			  createLiftItem("7:30 PM", "Microsoft", "Miyapur", "Mukesh", "", "Free");
-			  createLiftItem("8:30 PM", "Microsoft", "Miyapur", "Ganpat", "", "Dutch");
+			  createLiftItem("6:30", "Microsoft", "Miyapur", "Kamal", "", "Free");
+			  createLiftItem("6:40", "Microsoft", "Hafeezpet", "Pankaj", "", "Free");
+			  createLiftItem("6:50", "Microsoft", "Kondapur", "Manoj", "", "Dutch");
+			  createLiftItem("6:60", "Microsoft", "Miyapur", "Anil", "", "Free");
+			  createLiftItem("6:10", "Microsoft", "Kondapur", "Mahiram", "", "Free");
+			  createLiftItem("7:30", "Microsoft", "Miyapur", "Mukesh", "", "Free");
+			  createLiftItem("8:30", "Microsoft", "Miyapur", "Ganpat", "", "Dutch");
 	  }
 	  
 	  public LiftItem createLiftItem(
