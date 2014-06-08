@@ -7,8 +7,15 @@ import java.util.List;
 import com.example.pickmeat.DataAccess;
 import com.example.pickmeat.DataAccess.DataHelper;
 
+import android.location.Criteria;
+import android.location.LocationListener;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -18,12 +25,17 @@ import android.widget.ExpandableListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements LocationListener {
 
 	private DataAccess.DataSource datasource;
-	private ArrayList<Location> locations = new ArrayList<Location>(); 
+	private ArrayList<LocationPool> locations = new ArrayList<LocationPool>(); 
 	private LiftListAdapter liftListAdapter;
 	private ExpandableListView liftListView;
+
+	private LocationManager locationManager;
+	private LocationListener locationListener;
+	private Location location;
+	private Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +46,43 @@ public class MainActivity extends Activity {
        	
         datasource = dataAccess.new DataSource(this);
         datasource.open(); 
+        
+        locationManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        
+        Criteria crta = new Criteria(); 
+        crta.setAccuracy(Criteria.ACCURACY_FINE); 
+        crta.setAltitudeRequired(false); 
+        crta.setBearingRequired(false); 
+        crta.setCostAllowed(true); 
+        crta.setPowerRequirement(Criteria.POWER_LOW); 
+        String provider = locationManager.getBestProvider(crta, true); 
+
+        // String provider = LocationManager.GPS_PROVIDER; 
+        location = locationManager.getLastKnownLocation(provider);
+        if (location==null){
+        	location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        if (location==null){
+        	location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        }
+        if (location==null){
+        	Log.d("Location","is null");
+			new AlertDialog.Builder(MainActivity.this).setTitle("Error")
+            .setMessage("Unable to fetch location")
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                         dialog.cancel();
+                }
+            }).show();
+			return;
+        }
+		Log.d("Location","lat "+location.getLatitude());
+		Log.d("Location","lat "+location.getLongitude());
+
+        
+        locationManager.requestLocationUpdates(provider, 1000, 0, this); 		
+        //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+		//locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
         loadData();
         
@@ -42,7 +91,6 @@ public class MainActivity extends Activity {
 
         View header = (View)getLayoutInflater().inflate(R.layout.widget_add_lift_button, null);
         liftListView.addHeaderView(header);
-
 		
 		//create the adapter by passing your ArrayList data
 		liftListAdapter = new LiftListAdapter(this, locations);
@@ -52,6 +100,35 @@ public class MainActivity extends Activity {
 		//expand all Groups
 		expandFirstGroup();
 
+	}
+
+
+	@Override
+	public void onLocationChanged(Location arg0) {
+		// TODO Auto-generated method stub
+		//loadData();
+		//textView = (TextView) findViewById(R.id.textview1);
+		//textView.setText("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		Log.d("MY_TAG","latitude disable");
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+		Log.d("MY_TAG","latitude enable");
+		
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+		Log.d("MY_TAG","latitude status");
+		
 	}
 
 	@Override
@@ -92,8 +169,11 @@ public class MainActivity extends Activity {
     	Calendar twelvehourlater = Calendar.getInstance();
     	twelvehourlater.add(Calendar.HOUR, 12);
         List<DataAccess.LiftItem> liftitems = datasource.getLiftsByCriteria(DataHelper.LIFT_COLUMN_LIFTOR + " = '' AND "
-        		+DataHelper.LIFT_COLUMN_FROM+" = '"+datasource.getSetting(DataAccess.Setting.UserLocation)+"' AND "
-        		+DataHelper.LIFT_COLUMN_TIME+ " > '"+DataAccess.getStringFromDate(onehourback)+"' AND "
+			+DataHelper.LIFT_COLUMN_FROM_LAT+" > "+(location.getLatitude()-0.01)+" AND "
+			+DataHelper.LIFT_COLUMN_FROM_LAT+" < "+(location.getLatitude()+0.01)+" AND "
+			+DataHelper.LIFT_COLUMN_FROM_LONG+" > "+(location.getLongitude()-0.01)+" AND "
+			+DataHelper.LIFT_COLUMN_FROM_LONG+" < "+(location.getLongitude()+0.01)+" AND "
+      		+DataHelper.LIFT_COLUMN_TIME+ " > '"+DataAccess.getStringFromDate(onehourback)+"' AND "
         		+DataHelper.LIFT_COLUMN_TIME+ " < '"+DataAccess.getStringFromDate(twelvehourlater)+"'");
     	for(int i=0;i<liftitems.size();i++){
     		DataAccess.LiftItem liftItem = liftitems.get(i);
@@ -111,13 +191,14 @@ public class MainActivity extends Activity {
     	}
     	ArrayList<Lift> lifts = new ArrayList<Lift>();
     	lifts.add(lift);
-    	locations.add(new Location(lift.to, lifts));
+    	locations.add(new LocationPool(lift.to, lifts));
     }
 
 	private Lift CreateLift(DataAccess.LiftItem lift) {
 		return new Lift(lift.getId(),
 					lift.getTime(), 
-					lift.getFrom(), 
+					lift.getFromLat(), 
+					lift.getFromLong(), 
 					lift.getTo(), 
 					lift.getLiftee(), 
 					lift.getLiftor(),
@@ -157,4 +238,5 @@ public class MainActivity extends Activity {
       datasource.close();
       super.onPause();
     }
+
 }

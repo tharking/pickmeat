@@ -25,9 +25,9 @@ public class LiftListAdapter extends BaseExpandableListAdapter {
 
     Context context; 
     int layoutResourceId;  
-    ArrayList<Location> locations;
+    ArrayList<LocationPool> locations;
     
-    public LiftListAdapter(Context context, ArrayList<Location> locations) {
+    public LiftListAdapter(Context context, ArrayList<LocationPool> locations) {
 //        super(context, layoutResourceId, data);
         this.context = context;
         this.locations = locations;
@@ -87,7 +87,7 @@ public class LiftListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isLastChild, View view,
       ViewGroup parent) {
       
-     Location location = (Location) getGroup(groupPosition);
+     LocationPool location = (LocationPool) getGroup(groupPosition);
      if (view == null) {
       LayoutInflater inf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       view = inf.inflate(R.layout.widget_location, null);
@@ -138,7 +138,7 @@ public class LiftListAdapter extends BaseExpandableListAdapter {
 	               	 tagT_array[0] = groupPosition;
 	               	 tagT_array[1] = childPosition;
 	               	 midLayout.setTag(tagT_array);
-	               	 ((TextView)view.findViewById(R.id.txtFrom)).setText(lift.from);
+	               	 ((TextView)view.findViewById(R.id.txtFrom)).setText(lift.from_lat+"-"+lift.from_long);
 	               	 ((TextView)view.findViewById(R.id.txtTo)).setText(lift.to);
 	               	 ((TextView)view.findViewById(R.id.txtTime)).setText(DataAccess.getHourMinuteStringFromDate(lift.time));
                         break;

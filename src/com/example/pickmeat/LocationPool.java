@@ -1,15 +1,15 @@
 package com.example.pickmeat;
 import java.util.ArrayList;
 
-public class Location {
+public class LocationPool {
 	public String location;
 	public ArrayList<Lift> liftList = new ArrayList<Lift>();
 		
-    public Location(){
+    public LocationPool(){
         super();
     }
 
-    public Location(String location, ArrayList<Lift> liftList) {
+    public LocationPool(String location, ArrayList<Lift> liftList) {
 	        super();
 	        this.location = location;
 	        this.liftList = liftList;

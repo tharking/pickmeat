@@ -22,12 +22,11 @@ import android.util.Log;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class DataAccess {
 	private static final String DATABASE_NAME = "lift_database.db";
-	private static final int DATABASE_VERSION = 7;
+	private static final int DATABASE_VERSION = 12;
 
 	  public enum Setting {
 		  UserName,
 		  UserID,
-		  UserLocation,
 		  LastPickupLocation
 	  }
 
@@ -60,7 +59,8 @@ public class DataAccess {
 	  public static final String TABLE_LIFT = "lift";
 	  public static final String LIFT_COLUMN_ID = "_id";
 	  public static final String LIFT_COLUMN_TIME = "lift_time";
-	  public static final String LIFT_COLUMN_FROM = "lift_from";
+	  public static final String LIFT_COLUMN_FROM_LAT = "lift_from_lat";
+	  public static final String LIFT_COLUMN_FROM_LONG = "lift_from_long";
 	  public static final String LIFT_COLUMN_TO = "lift_to";
 	  public static final String LIFT_COLUMN_LIFTEE = "liftee";
 	  public static final String LIFT_COLUMN_LIFTOR = "liftor";
@@ -71,7 +71,8 @@ public class DataAccess {
 	  private static final String LIFT_DATABASE_CREATE = "create table " + TABLE_LIFT + "(" 
 		  + LIFT_COLUMN_ID + " integer primary key autoincrement, " 
 		  + LIFT_COLUMN_TIME + " timestamp not null DEFAULT current_timestamp, "
-		  + LIFT_COLUMN_FROM + " text, "
+		  + LIFT_COLUMN_FROM_LAT + " double, "
+		  + LIFT_COLUMN_FROM_LONG + " double, "
 		  + LIFT_COLUMN_TO + " text, "
 		  + LIFT_COLUMN_LIFTEE + " text, "
 		  + LIFT_COLUMN_LIFTOR + " text, "
@@ -131,7 +132,8 @@ public class DataSource {
 	  private String[] liftAllColumns = { 
 			  DataHelper.LIFT_COLUMN_ID,
 			  DataHelper.LIFT_COLUMN_TIME,
-			  DataHelper.LIFT_COLUMN_FROM,
+			  DataHelper.LIFT_COLUMN_FROM_LAT,
+			  DataHelper.LIFT_COLUMN_FROM_LONG,
 			  DataHelper.LIFT_COLUMN_TO,
 			  DataHelper.LIFT_COLUMN_LIFTEE,
 			  DataHelper.LIFT_COLUMN_LIFTOR,
@@ -168,26 +170,25 @@ public class DataSource {
 	  {
 		  	  Calendar rightNow = Calendar.getInstance();
 		  	  rightNow.add(Calendar.MINUTE, 20);
-		  	  createLiftItem(rightNow, "Microsoft", "Miyapur", "Kamal", "", "Free");
+		  	  createLiftItem(rightNow, 17.366, 78.476, "Miyapur", "Kamal", "", "Free");
 		  	  rightNow.add(Calendar.MINUTE, 20);
-		  	  createLiftItem(rightNow, "Microsoft", "Hafeezpet", "Pankaj", "", "Free");
+		  	  createLiftItem(rightNow, 17.366, 78.476, "Hafeezpet", "Pankaj", "", "Free");
 		  	  rightNow.add(Calendar.MINUTE, 20);
-			  createLiftItem(rightNow, "Microsoft", "Kondapur", "Manoj", "", "Dutch");
+			  createLiftItem(rightNow, 17.366, 78.476, "Kondapur", "Manoj", "", "Dutch");
 		  	  rightNow.add(Calendar.MINUTE, 20);
-			  createLiftItem(rightNow, "Microsoft", "Miyapur", "Anil", "", "Free");
+			  createLiftItem(rightNow, 17.366, 78.476, "Miyapur", "Anil", "", "Free");
 		  	  rightNow.add(Calendar.MINUTE, 20);
-			  createLiftItem(rightNow, "Microsoft", "Kondapur", "Mahiram", "", "Free");
+			  createLiftItem(rightNow, 17.366, 78.476, "Kondapur", "Mahiram", "", "Free");
 		  	  rightNow.add(Calendar.MINUTE, 20);
-			  createLiftItem(rightNow, "Microsoft", "Miyapur", "Mukesh", "", "Free");
+			  createLiftItem(rightNow, 17.366, 78.476, "Miyapur", "Mukesh", "", "Free");
 		  	  rightNow.add(Calendar.MINUTE, 20);
-			  createLiftItem(rightNow, "Microsoft", "Miyapur", "Ganpat", "", "Dutch");
+			  createLiftItem(rightNow, 17.366, 78.476, "Miyapur", "Ganpat", "", "Dutch");
 	  }
 	  public void fillSettings()
 	  {
 		  setSetting(Setting.UserName, "KamalC");
 		  setSetting(Setting.UserID, "kachoudh");
 		  setSetting(Setting.LastPickupLocation, "Kondapur");
-		  setSetting(Setting.UserLocation, "Microsoft");
 	  }
 	  public void setSetting(Setting setting, String value) {
 		  // clear any existing setting first
@@ -234,7 +235,8 @@ public class DataSource {
   
 	  public LiftItem createLiftItem(
 			  Calendar time,
-			  String from,
+			  double from_lat,
+			  double from_long,
 			  String to,
 			  String liftee,
 			  String liftor,
@@ -243,7 +245,8 @@ public class DataSource {
 		  
 		    ContentValues values = new ContentValues();
 		    values.put(DataHelper.LIFT_COLUMN_TIME, getStringFromDate(time));
-		    values.put(DataHelper.LIFT_COLUMN_FROM, from);
+		    values.put(DataHelper.LIFT_COLUMN_FROM_LAT, from_lat);
+		    values.put(DataHelper.LIFT_COLUMN_FROM_LONG, from_long);
 		    values.put(DataHelper.LIFT_COLUMN_TO, to);
 		    values.put(DataHelper.LIFT_COLUMN_LIFTEE, liftee);
 		    values.put(DataHelper.LIFT_COLUMN_LIFTOR, liftor);
@@ -272,7 +275,8 @@ public class DataSource {
 		    System.out.println("Lift item accepted with id: " + liftItem.getId());
 		    ContentValues values = new ContentValues();
 		    values.put(DataHelper.LIFT_COLUMN_TIME, liftItem.getTimeString());
-		    values.put(DataHelper.LIFT_COLUMN_FROM, liftItem.getFrom());
+		    values.put(DataHelper.LIFT_COLUMN_FROM_LAT, liftItem.getFromLat());
+		    values.put(DataHelper.LIFT_COLUMN_FROM_LONG, liftItem.getFromLong());
 		    values.put(DataHelper.LIFT_COLUMN_TO, liftItem.getTo());
 		    values.put(DataHelper.LIFT_COLUMN_LIFTEE, liftItem.getLiftee());
 		    values.put(DataHelper.LIFT_COLUMN_LIFTOR, liftor);
@@ -381,11 +385,12 @@ public class DataSource {
 	    	new LiftItem(
     			cursor.getLong(0),
     			DataAccess.getCalendarFromString(cursor.getString(1)),
-    			cursor.getString(2),
-    			cursor.getString(3),
+    			cursor.getDouble(2),
+    			cursor.getDouble(3),
     			cursor.getString(4),
     			cursor.getString(5),
-    			cursor.getString(6)
+    			cursor.getString(6),
+    			cursor.getString(7)
     			);
 
 	    return liftItem;
@@ -408,7 +413,8 @@ public class DataSource {
 public class LiftItem {
 	  private long _id;
 	  private Calendar _time;
-	  private String _from;
+	  private double _from_lat;
+	  private double _from_long;
 	  private String _to;
 	  private String _liftee;
 	  private String _liftor;
@@ -417,7 +423,8 @@ public class LiftItem {
 	  public LiftItem(
 		  long id,
 		  Calendar time,
-		  String from,
+		  double from_lat,
+		  double from_long,
 		  String to,
 		  String liftee,
 		  String liftor,
@@ -425,7 +432,8 @@ public class LiftItem {
 	  {
 		 _id = id;
 		 _time = time;
-		 _from = from;
+		 _from_lat = from_lat;
+		 _from_long = from_long;
 		 _to = to;
 		 _liftee = liftee;
 		 _liftor = liftor;
@@ -435,7 +443,8 @@ public class LiftItem {
 	  public long getId() { return _id; }
 	  public Calendar getTime() { return _time; }
 	  public String getTimeString() { return DataAccess.getStringFromDate(_time); }
-	  public String getFrom() { return _from; }
+	  public double getFromLat() { return _from_lat; }
+	  public double getFromLong() { return _from_long; }
 	  public String getTo() { return _to; }
 	  public String getLiftee() { return _liftee; }
 	  public String getLiftor() { return _liftor; }

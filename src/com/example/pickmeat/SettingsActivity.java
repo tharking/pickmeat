@@ -39,9 +39,6 @@ public class SettingsActivity extends Activity {
 		EditText userName = (EditText) findViewById(R.id.editTextUserName);
 		userName.setText(datasource.getSetting(Setting.UserName));
 
-		EditText userLocation = (EditText) findViewById(R.id.editTextUserLocation);
-		userLocation.setText(datasource.getSetting(Setting.UserLocation));
-
 		EditText lastPickupLocation = (EditText) findViewById(R.id.editTextLastPickupLocation);
 		lastPickupLocation.setText(datasource.getSetting(Setting.LastPickupLocation));
 		
@@ -65,17 +62,6 @@ public class SettingsActivity extends Activity {
                     }).show();
         			return;
         		}
-       			EditText userLocation = (EditText) findViewById(R.id.editTextUserLocation);
-        		if(userLocation.getText().toString().equalsIgnoreCase("")){
-        			new AlertDialog.Builder(SettingsActivity.this).setTitle("Save Failed")
-                    .setMessage("Please provide user from location")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                                 dialog.cancel();
-                        }
-                    }).show();
-        			return;
-        		}
         		EditText lastPickupLocation = (EditText) findViewById(R.id.editTextLastPickupLocation);
        			EditText userID = (EditText) findViewById(R.id.editTextUserID);
         		if(userID.getText().toString().equalsIgnoreCase("")){
@@ -92,7 +78,6 @@ public class SettingsActivity extends Activity {
         		datasource.setSetting(Setting.LastPickupLocation, lastPickupLocation.getText().toString());
         		datasource.setSetting(Setting.UserName, userName.getText().toString());
         		datasource.setSetting(Setting.UserID, userID.getText().toString());
-        		datasource.setSetting(Setting.UserLocation, userLocation.getText().toString());
            		
         		Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
 	        	startActivity(intent);
