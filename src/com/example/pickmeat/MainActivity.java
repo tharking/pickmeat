@@ -86,7 +86,7 @@ public class MainActivity extends Activity {
     }
     private void loadData(){
     	locations.clear();
-        List<DataAccess.LiftItem> liftitems = datasource.getLiftsByCriteria(DataHelper.LIFT_COLUMN_LIFTOR + " = ''");
+        List<DataAccess.LiftItem> liftitems = datasource.getLiftsByCriteria(DataHelper.LIFT_COLUMN_LIFTOR + " = '' AND "+DataHelper.LIFT_COLUMN_FROM+" = '"+datasource.getSetting(DataAccess.Setting.UserLocation)+"'");
     	for(int i=0;i<liftitems.size();i++){
     		DataAccess.LiftItem liftItem = liftitems.get(i);
     		Lift lift = CreateLift(liftItem);
@@ -131,6 +131,9 @@ public class MainActivity extends Activity {
 	   	DataAccess.LiftItem liftitem_to_be_accepted = datasource.getLiftItem(lift_id_to_accept);  
 	   	datasource.acceptLiftItem(lift_id_to_accept, "Kamal");
     	liftListAdapter.locations.get(groupPosition).liftList.remove(childPosition);
+    	if (liftListAdapter.locations.get(groupPosition).liftList.size()==0){
+    		liftListAdapter.locations.remove(groupPosition);
+    	}
     	liftListAdapter.notifyDataSetInvalidated();
 	}
 
