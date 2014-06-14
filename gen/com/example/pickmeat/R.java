@@ -37,24 +37,29 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int LiftExpandableList=0x7f090000;
-        public static final int acceptView=0x7f090009;
-        public static final int action_settings=0x7f090011;
-        public static final int addRequest=0x7f090007;
-        public static final int autoCompleteTextViewTo=0x7f090005;
-        public static final int editTextLastPickupLocation=0x7f090002;
-        public static final int editTextTimePicker=0x7f090006;
-        public static final int editTextUserID=0x7f090003;
-        public static final int editTextUserName=0x7f090001;
-        public static final int liftMidLayout=0x7f09000a;
-        public static final int location=0x7f090010;
-        public static final int recipeClockLayout=0x7f09000e;
-        public static final int saveButton=0x7f090004;
-        public static final int txtFrom=0x7f09000c;
-        public static final int txtLiftee=0x7f09000b;
-        public static final int txtTime=0x7f09000f;
-        public static final int txtTo=0x7f09000d;
-        public static final int viewPager=0x7f090008;
+        public static final int AcceptedLiftExpandableList=0x7f090004;
+        public static final int PendingLiftExpandableList=0x7f090006;
+        public static final int YourLiftExpandableList=0x7f090002;
+        public static final int acceptView=0x7f09000e;
+        public static final int acceptedrequestsheader=0x7f090003;
+        public static final int action_settings=0x7f090016;
+        public static final int addRequest=0x7f090000;
+        public static final int autoCompleteTextViewTo=0x7f09000b;
+        public static final int editTextLastPickupLocation=0x7f090008;
+        public static final int editTextTimePicker=0x7f09000c;
+        public static final int editTextUserID=0x7f090009;
+        public static final int editTextUserName=0x7f090007;
+        public static final int liftMidLayout=0x7f09000f;
+        public static final int location=0x7f090015;
+        public static final int pendingrequestsheader=0x7f090005;
+        public static final int recipeClockLayout=0x7f090013;
+        public static final int saveButton=0x7f09000a;
+        public static final int txtFrom=0x7f090011;
+        public static final int txtLiftee=0x7f090010;
+        public static final int txtTime=0x7f090014;
+        public static final int txtTo=0x7f090012;
+        public static final int viewPager=0x7f09000d;
+        public static final int yourrequestsheader=0x7f090001;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

@@ -137,16 +137,11 @@ public class DataSourceApp42 {
 		Query q1 = QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_LIFTOR, "", Operator.EQUALS);   
 		List<DataAccessApp42.LiftItem> liftitems = null;
 		try {
-			try {
 				liftitems = getLiftsByCriteria(q1);
 				System.out.println("Lift items count:" + liftitems.size());
-				if (liftitems.size() == 0){
-					fillData();
-				}
-			} catch (App42NotFoundException e){
-				e.printStackTrace();
-				fillData();
-			}
+//		if (liftitems.size() == 0){
+//			fillData();
+//		}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -253,17 +248,21 @@ public class DataSourceApp42 {
 
 	  public List<LiftItem> getLiftsByCriteria(Query query) throws JSONException {
 		  List<LiftItem> liftItems = new ArrayList<LiftItem>();
-		  Storage response = storageService.findDocumentsByQuery(DATABASE_NAME, COLLECTION_NAME, query);
-		  if (response.isResponseSuccess()){
-				ArrayList<Storage.JSONDocument> jsonDocList = response.getJsonDocList();
-		    	ArrayList<JSONObject> jsonObjList = getJSONObjectsFromJSONDocuments(jsonDocList);
-		    	for(int i=0;i<jsonObjList.size();i++)  {
-			    	LiftItem liftItem = JSONObjectToLift(jsonObjList.get(i));
-			    	System.out.println(liftItem);
-				    liftItems.add(liftItem);
-		    	}
+		  try {
+			  Storage response = storageService.findDocumentsByQuery(DATABASE_NAME, COLLECTION_NAME, query);
+			  if (response.isResponseSuccess()){
+					ArrayList<Storage.JSONDocument> jsonDocList = response.getJsonDocList();
+			    	ArrayList<JSONObject> jsonObjList = getJSONObjectsFromJSONDocuments(jsonDocList);
+			    	for(int i=0;i<jsonObjList.size();i++)  {
+				    	LiftItem liftItem = JSONObjectToLift(jsonObjList.get(i));
+				    	System.out.println(liftItem);
+					    liftItems.add(liftItem);
+			    	}
+			  }
+		  } catch (App42NotFoundException e){
+			  // do nothing, send empty list
 		  }
-		  return liftItems;
+		return liftItems;
 	  }
 
 	  public ArrayList<String> getAllLocations() {

@@ -8,13 +8,119 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    android:background="#FFFFFF"> 
+		<LinearLayout  
+			    android:orientation="horizontal" 
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+		    android:background="@color/page_bg"
+			    android:gravity="center"
+			   	android:padding="10dp"
+			    >
+		
+			     <Button android:id="@+id/addRequest"
+			        android:layout_width="fill_parent"
+			        android:layout_height="fill_parent"
+			        android:layout_weight="1"
+			        android:textSize="21dp"
+			        android:textColor="#FFFFFF"
+			        android:padding="10dp"
+			    	android:gravity="center"
+			        android:text="PICK ME AT..."
+			        android:onClick="addRequest"
+			        android:background="#0ABB8E" />
+		           
+		</LinearLayout>
+	    	    
+	    <LinearLayout android:id="@+id/yourrequestsheader" 
+		    android:layout_width="fill_parent"
+		    android:layout_height="40dip"
+		    android:background="@color/ratings_bg"
+		    android:visibility="gone"
+		    android:orientation="horizontal" >
+		    <TextView
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:gravity="center"
+		        android:layout_alignParentTop="true"
+		        android:layout_alignParentBottom="true"
+		        android:layout_weight="2"
+		        android:textAlignment="center"
+		        android:layout_gravity="center"
+		        android:paddingLeft="10sp"
+		        android:textColor="@color/ratings_fg"
+		        android:text="Your Requests"
+		        android:textStyle="bold"
+		        android:padding="5sp"
+		        android:textSize="20sp"
+			 />
+		</LinearLayout>
 	    
 	     <ExpandableListView
-	        android:id="@+id/LiftExpandableList"
+	        android:id="@+id/YourLiftExpandableList"
 	        android:layout_width="fill_parent"
-	        android:layout_height="fill_parent"
+	        android:layout_height="wrap_content"
 	        android:visibility="visible"
 	        android:groupIndicator="@android:color/transparent" />
-	     
+
+	    <LinearLayout android:id="@+id/acceptedrequestsheader"
+		    android:layout_width="fill_parent"
+		    android:layout_height="40dip"
+		    android:background="@color/ratings_bg"
+		    android:visibility="gone"
+		    android:orientation="horizontal" >
+		    <TextView
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:gravity="center"
+		        android:layout_alignParentTop="true"
+		        android:layout_alignParentBottom="true"
+		        android:layout_weight="2"
+		        android:textAlignment="center"
+		        android:layout_gravity="center"
+		        android:paddingLeft="10sp"
+		        android:textColor="@color/ratings_fg"
+		        android:text="Accepted Requests"
+		        android:textStyle="bold"
+		        android:padding="5sp"
+		        android:textSize="20sp"
+			 />
+		</LinearLayout>
+	     	     
+	     <ExpandableListView
+	        android:id="@+id/AcceptedLiftExpandableList"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:visibility="visible"
+	        android:groupIndicator="@android:color/transparent" />
+	    <LinearLayout android:id="@+id/pendingrequestsheader"
+		    android:layout_width="fill_parent"
+		    android:layout_height="40dip"
+		    android:background="@color/ratings_bg"
+		    android:visibility="gone"
+		    android:orientation="horizontal" >
+		    <TextView
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:gravity="center"
+		        android:layout_alignParentTop="true"
+		        android:layout_alignParentBottom="true"
+		        android:layout_weight="2"
+		        android:textAlignment="center"
+		        android:layout_gravity="center"
+		        android:paddingLeft="10sp"
+		        android:textColor="@color/ratings_fg"
+		        android:text="Pending Requests"
+		        android:textStyle="bold"
+		        android:padding="5sp"
+		        android:textSize="20sp"
+			 />
+		</LinearLayout>
+		<ExpandableListView
+	        android:id="@+id/PendingLiftExpandableList"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:visibility="visible"
+	        android:groupIndicator="@android:color/transparent" />
+	     	     
 	</LinearLayout>
 	

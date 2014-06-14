@@ -131,7 +131,7 @@ public class NewLiftRequest extends Activity  implements LocationListener {
 						});
 					}
 					else {
-						LiftItem liftitem = datasourceapp42.createLiftItem(newTime, location.getLatitude(), location.getLongitude(), to.getText().toString(), datasource.getSetting(Setting.UserName), datasource.getSetting(Setting.UserID)+"_ID", "", "", "Free");
+						LiftItem liftitem = datasourceapp42.createLiftItem(newTime, location.getLatitude(), location.getLongitude(), to.getText().toString(), datasource.getSetting(Setting.UserName), datasource.getSetting(Setting.UserID), "", "", "Free");
 						if(liftitem == null){
 							callingThreadHandler.post(new Runnable() {
 								@Override
