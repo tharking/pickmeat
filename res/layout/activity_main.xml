@@ -30,8 +30,21 @@
 			        android:background="#0ABB8E" />
 		           
 		</LinearLayout>
-	    	    
-	    <LinearLayout android:id="@+id/yourrequestsheader" 
+		<LinearLayout android:id="@+id/progressbar"
+			    android:orientation="horizontal" 
+			    android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+		    android:background="@color/page_bg"
+			    android:gravity="center"
+			   	android:padding="10dp"
+			    >
+			      <ProgressBar  
+		         android:layout_width="wrap_content"
+		         android:layout_height="wrap_content"
+				    android:gravity="center"
+		         	style="@android:style/Widget.ProgressBar.Small" />
+		</LinearLayout>
+   	    <LinearLayout android:id="@+id/yourrequestsheader" 
 		    android:layout_width="fill_parent"
 		    android:layout_height="40dip"
 		    android:background="@color/ratings_bg"

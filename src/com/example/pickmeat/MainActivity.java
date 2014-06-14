@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements LocationListener {
 	private ArrayList<LocationPool> acceptedlocations = new ArrayList<LocationPool>(); 
 	private LiftListAdapter pendingLiftListAdapter, yourLiftListAdapter, acceptedLiftListAdapter;
 	private ExpandableListView pendingLiftListView, yourLiftListView, acceptedLiftListView;
-	private LinearLayout pendingHeader, yourHeader, acceptedHeader;
+	private LinearLayout pendingHeader, yourHeader, acceptedHeader, progressBar;
 
 	private LocationManager locationManager;
 	private LocationListener locationListener;
@@ -112,14 +112,13 @@ public class MainActivity extends Activity implements LocationListener {
         locationManager.requestLocationUpdates(provider, 1000, 0, this); 		
         //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 		//locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        progressBar = (LinearLayout) findViewById(R.id.progressbar);
 
-        loadData();
-        
-		yourHeader = (LinearLayout) findViewById(R.id.yourrequestsheader);
+        yourHeader = (LinearLayout) findViewById(R.id.yourrequestsheader);
         yourLiftListView = (ExpandableListView) findViewById(R.id.YourLiftExpandableList);
 		yourLiftListAdapter = new LiftListAdapter(this, yourlocations, LiftListAdapter.CANCEL_MODE);
 		yourLiftListView.setAdapter(yourLiftListAdapter);
-		 
+
 		acceptedHeader = (LinearLayout) findViewById(R.id.acceptedrequestsheader);
 		acceptedLiftListView = (ExpandableListView) findViewById(R.id.AcceptedLiftExpandableList);
 		acceptedLiftListAdapter = new LiftListAdapter(this, acceptedlocations, LiftListAdapter.DENY_MODE);
@@ -130,7 +129,9 @@ public class MainActivity extends Activity implements LocationListener {
 		pendingLiftListAdapter = new LiftListAdapter(this, pendinglocations, LiftListAdapter.ACCEPT_MODE);
 		pendingLiftListView.setAdapter(pendingLiftListAdapter);
 
-		//expand all Groups
+        loadData();
+
+        //expand all Groups
 		expandFirstGroup();
 
 	}
@@ -198,7 +199,8 @@ public class MainActivity extends Activity implements LocationListener {
     private void loadData(){
     	final MainActivity callback = this;
     	final Handler callingThreadHandler = new Handler();
-		new Thread() {
+    	progressBar.setVisibility(View.VISIBLE);
+    	new Thread() {
 			@Override
 			public void run() {
 				try {
@@ -279,6 +281,7 @@ public class MainActivity extends Activity implements LocationListener {
     	} else {
     		pendingHeader.setVisibility(View.GONE);
     	}
+    	progressBar.setVisibility(View.GONE);
     }
     
     private void addLiftToLocation(Lift lift, ArrayList<LocationPool> locations){
@@ -314,6 +317,7 @@ public class MainActivity extends Activity implements LocationListener {
     	final MainActivity callback = this;
     	final Handler callingThreadHandler = new Handler();
 		final int[] tag_array = (int [])view.getTag();
+    	progressBar.setVisibility(View.VISIBLE);
 		new Thread() {
 			@Override
 			public void run() {
@@ -348,6 +352,7 @@ public class MainActivity extends Activity implements LocationListener {
     	final MainActivity callback = this;
     	final Handler callingThreadHandler = new Handler();
 		final int[] tag_array = (int [])view.getTag();
+    	progressBar.setVisibility(View.VISIBLE);
 		new Thread() {
 			@Override
 			public void run() {
@@ -377,6 +382,7 @@ public class MainActivity extends Activity implements LocationListener {
     	final MainActivity callback = this;
     	final Handler callingThreadHandler = new Handler();
 		final int[] tag_array = (int [])view.getTag();
+    	progressBar.setVisibility(View.VISIBLE);
 		new Thread() {
 			@Override
 			public void run() {

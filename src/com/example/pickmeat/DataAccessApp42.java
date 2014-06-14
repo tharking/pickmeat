@@ -137,11 +137,11 @@ public class DataSourceApp42 {
 		Query q1 = QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_LIFTOR, "", Operator.EQUALS);   
 		List<DataAccessApp42.LiftItem> liftitems = null;
 		try {
-				liftitems = getLiftsByCriteria(q1);
+				liftitems = getLiftsByCriteriaWithPaging(q1, 1, 0);
 				System.out.println("Lift items count:" + liftitems.size());
-//		if (liftitems.size() == 0){
-//			fillData();
-//		}
+				if (liftitems.size() == 0){
+					fillData();
+				}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -267,6 +267,25 @@ public class DataSourceApp42 {
 		  List<LiftItem> liftItems = new ArrayList<LiftItem>();
 		  try {
 			  Storage response = storageService.findDocumentsByQuery(DATABASE_NAME, COLLECTION_NAME, query);
+			  if (response.isResponseSuccess()){
+					ArrayList<Storage.JSONDocument> jsonDocList = response.getJsonDocList();
+			    	ArrayList<JSONObject> jsonObjList = getJSONObjectsFromJSONDocuments(jsonDocList);
+			    	for(int i=0;i<jsonObjList.size();i++)  {
+				    	LiftItem liftItem = JSONObjectToLift(jsonObjList.get(i));
+				    	System.out.println(liftItem);
+					    liftItems.add(liftItem);
+			    	}
+			  }
+		  } catch (App42NotFoundException e){
+			  // do nothing, send empty list
+		  }
+		return liftItems;
+	  }
+
+	  public List<LiftItem> getLiftsByCriteriaWithPaging(Query query, int max, int offset) throws JSONException {
+		  List<LiftItem> liftItems = new ArrayList<LiftItem>();
+		  try {
+			  Storage response = storageService.findDocumentsByQueryWithPaging(DATABASE_NAME, COLLECTION_NAME, query, max, offset);
 			  if (response.isResponseSuccess()){
 					ArrayList<Storage.JSONDocument> jsonDocList = response.getJsonDocList();
 			    	ArrayList<JSONObject> jsonObjList = getJSONObjectsFromJSONDocuments(jsonDocList);
