@@ -98,6 +98,7 @@ public class NewLiftRequest extends Activity  implements LocationListener {
 		AutoCompleteTextView edtTitle = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewTo);
         edtTitle.setAdapter(locationAdapter);
         edtTitle.setThreshold(1);
+        edtTitle.setText(datasource.getSetting(Setting.LastPickupLocation));
 
 		TimePicker myTimePicker = (TimePicker) findViewById(R.id.editTextTimePicker);
 	    myTimePicker.setIs24HourView(true);
@@ -133,7 +134,8 @@ public class NewLiftRequest extends Activity  implements LocationListener {
 					}
 					else {
 			    		datasourceapp42.createLiftItem(newTime, location.getLatitude(), location.getLongitude(), to.getText().toString(), datasource.getSetting(Setting.UserName), datasource.getSetting(Setting.UserID)+"_ID", "", "", "Free");
-						callingThreadHandler.post(new Runnable() {
+						datasource.setSetting(Setting.LastPickupLocation, to.getText().toString());
+			    		callingThreadHandler.post(new Runnable() {
 							@Override
 							public void run() {
 								callback.onSaveLift(true);
@@ -153,6 +155,7 @@ public class NewLiftRequest extends Activity  implements LocationListener {
     private void onSaveLift(boolean success){
 		if(success){
 			Intent intent = new Intent(NewLiftRequest.this, MainActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 		} else {
 			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
