@@ -65,6 +65,8 @@
 	    android:textColor="#FFFFFF"
 	    android:padding="2dp"
 	    android:background="#0ABB8E"
-        android:text="Save" />
+        android:text="Save" 
+        android:onClick="saveRequest"
+        />
 
 </LinearLayout>

@@ -140,7 +140,7 @@ public class LiftListAdapter extends BaseExpandableListAdapter {
 	               	 midLayout.setTag(tagT_array);
 	               	 ((TextView)view.findViewById(R.id.txtFrom)).setText(lift.from_lat+"-"+lift.from_long);
 	               	 ((TextView)view.findViewById(R.id.txtTo)).setText(lift.to);
-	               	 ((TextView)view.findViewById(R.id.txtTime)).setText(DataAccess.getHourMinuteStringFromDate(lift.time));
+	               	 ((TextView)view.findViewById(R.id.txtTime)).setText(DataAccessApp42.getHourMinuteStringFromDate(lift.time));
                         break;
                 case 1:
                     view = inflater.inflate (R.layout.widget_lift_item_accept, null);

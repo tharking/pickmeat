@@ -3,10 +3,10 @@ package com.example.pickmeat;
 import java.util.Calendar;
 
 public class Lift {
-		public long lift_id;
+		public String lift_id;
 	    public Calendar time;
-	    public double from_lat;
-	    public double from_long;
+	    public Double from_lat;
+	    public Double from_long;
 	    public String to;
 	    public String liftee;
 	    public String liftor;
@@ -16,7 +16,7 @@ public class Lift {
 	        super();
 	    }
 
-	    public Lift(long lift_id, Calendar time, double from_lat, double from_long, String to, String liftee, String liftor, String type) {
+	    public Lift(String lift_id, Calendar time, Double from_lat, Double from_long, String to, String liftee, String liftor, String type) {
 	        super();
 	        this.lift_id = lift_id;
 	        this.time = time;

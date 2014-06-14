@@ -5,14 +5,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.json.JSONException;
+
 import com.example.pickmeat.DataAccess.DataSource;
 import com.example.pickmeat.DataAccess.Setting;
+import com.example.pickmeat.DataAccessApp42.DataSourceApp42;
 
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -38,6 +42,7 @@ import android.widget.TimePicker;
 
 public class NewLiftRequest extends Activity  implements LocationListener {
 
+	DataSourceApp42 datasourceapp42;
 	DataSource datasource;
 	private LocationManager locationManager;
 	private LocationListener locationListener;
@@ -52,6 +57,9 @@ public class NewLiftRequest extends Activity  implements LocationListener {
 		DataAccess dataAccess = new DataAccess();
     	datasource = dataAccess.new DataSource(this);
         datasource.open();
+		DataAccessApp42 dataAccessApp42 = new DataAccessApp42();
+    	datasourceapp42 = dataAccessApp42.new DataSourceApp42(this);
+        MainActivity.initiateDataSource(datasourceapp42);
 
         locationManager=(LocationManager)getSystemService(Context.LOCATION_SERVICE);
         
@@ -84,7 +92,7 @@ public class NewLiftRequest extends Activity  implements LocationListener {
         }
         locationManager.requestLocationUpdates(provider, 1000, 0, this); 		
         
-        ArrayList<String> locations = datasource.getAllLocations();
+        ArrayList<String> locations = datasourceapp42.getAllLocations();
         String[] data = locations.toArray(new String[locations.size()]);
     	ArrayAdapter<?> locationAdapter = new ArrayAdapter<Object>(this, android.R.layout.simple_dropdown_item_1line, data);
 		AutoCompleteTextView edtTitle = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewTo);
@@ -95,40 +103,68 @@ public class NewLiftRequest extends Activity  implements LocationListener {
 	    myTimePicker.setIs24HourView(true);
 //	    myTimePicker.setCurrentHour(currentHour);
 //	    myTimePicker.setCurrentMinute(currentHour);
-        hookSaveButtonEvents();
+//        hookSaveButtonEvents();
 	}
 
 
-	private void hookSaveButtonEvents() {
-		Button saveButton = (Button) findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-        		AutoCompleteTextView to = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewTo);
-        		TimePicker myTimePicker = (TimePicker) findViewById(R.id.editTextTimePicker);
-        		Calendar rightNow = Calendar.getInstance();
-        		Calendar newTime = Calendar.getInstance();
-        		newTime.set(rightNow.get(Calendar.YEAR), rightNow.get(Calendar.MONTH), rightNow.get(Calendar.DATE), myTimePicker.getCurrentHour(), myTimePicker.getCurrentMinute());
-        		if(newTime.compareTo(rightNow) < 1){
-        			rightNow.add(Calendar.DAY_OF_MONTH, 1);
-        			newTime.set(rightNow.get(Calendar.YEAR), rightNow.get(Calendar.MONTH), rightNow.get(Calendar.DATE), myTimePicker.getCurrentHour(), myTimePicker.getCurrentMinute());
-        		}
-        		if(to.getText().toString().equalsIgnoreCase("")){
-        			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
-                    .setMessage("Please enter where you want to go")
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                                 dialog.cancel();
-                        }
-                    }).show();
-        		}
-        		else {
-	        		datasource.createLiftItem(newTime, location.getLatitude(), location.getLongitude(), to.getText().toString(), datasource.getSetting(Setting.UserName), "", "Free");
-	        		Intent intent = new Intent(NewLiftRequest.this, MainActivity.class);
-		        	startActivity(intent);
-        		}
-            }
-        });
+    public void saveRequest(View view) {
+    	final NewLiftRequest callback = this;
+    	final Handler callingThreadHandler = new Handler();
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					AutoCompleteTextView to = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextViewTo);
+					TimePicker myTimePicker = (TimePicker) findViewById(R.id.editTextTimePicker);
+					Calendar rightNow = Calendar.getInstance();
+					Calendar newTime = Calendar.getInstance();
+					newTime.set(rightNow.get(Calendar.YEAR), rightNow.get(Calendar.MONTH), rightNow.get(Calendar.DATE), myTimePicker.getCurrentHour(), myTimePicker.getCurrentMinute());
+					if(newTime.compareTo(rightNow) < 1){
+						rightNow.add(Calendar.DAY_OF_MONTH, 1);
+						newTime.set(rightNow.get(Calendar.YEAR), rightNow.get(Calendar.MONTH), rightNow.get(Calendar.DATE), myTimePicker.getCurrentHour(), myTimePicker.getCurrentMinute());
+					}
+					if(to.getText().toString().equalsIgnoreCase("")){
+						callingThreadHandler.post(new Runnable() {
+							@Override
+							public void run() {
+								callback.onSaveLift(false);
+							}
+						});
+					}
+					else {
+			    		datasourceapp42.createLiftItem(newTime, location.getLatitude(), location.getLongitude(), to.getText().toString(), datasource.getSetting(Setting.UserName), datasource.getSetting(Setting.UserID)+"_ID", "", "", "Free");
+						callingThreadHandler.post(new Runnable() {
+							@Override
+							public void run() {
+								callback.onSaveLift(true);
+							}
+						});
+					}
+
+				} catch (final Exception ex) {
+					//
+					ex.printStackTrace();
+				}
+			}
+		}.start();
+    	
+    }
+    
+    private void onSaveLift(boolean success){
+		if(success){
+			Intent intent = new Intent(NewLiftRequest.this, MainActivity.class);
+			startActivity(intent);
+		} else {
+			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
+            .setMessage("Please enter where you want to go")
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                         dialog.cancel();
+                }
+            }).show();
+		}
 	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
