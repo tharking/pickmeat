@@ -7,6 +7,8 @@ import java.util.List;
 import org.json.JSONException;
 
 import com.example.pickmeat.DataAccessApp42;
+import com.example.pickmeat.DataAccess.DataSource;
+import com.example.pickmeat.DataAccess.Setting;
 import com.example.pickmeat.DataAccessApp42.DataHelperApp42;
 import com.example.pickmeat.DataAccessApp42.DataSourceApp42;
 import com.shephertz.app42.paas.sdk.android.storage.Query;
@@ -35,6 +37,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements LocationListener {
 
 	private DataAccessApp42.DataSourceApp42 datasourceapp42;
+	DataSource datasource;
 	private ArrayList<LocationPool> locations = new ArrayList<LocationPool>(); 
 	private LiftListAdapter liftListAdapter;
 	private ExpandableListView liftListView;
@@ -58,7 +61,11 @@ public class MainActivity extends Activity implements LocationListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
+		DataAccess dataAccess = new DataAccess();
+    	datasource = dataAccess.new DataSource(this);
+        datasource.open();
+
 		DataAccessApp42 dataAccessApp42 = new DataAccessApp42();
         datasourceapp42 = dataAccessApp42.new DataSourceApp42(this);
 		initiateDataSource(datasourceapp42);
@@ -267,7 +274,7 @@ public class MainActivity extends Activity implements LocationListener {
 
 				   	String lift_id_to_accept = liftListAdapter.locations.get(groupPosition).liftList.get(childPosition).lift_id;
 				   	try {
-						datasourceapp42.acceptLiftItem(lift_id_to_accept, "Kamal", "Kamal_id");
+						datasourceapp42.acceptLiftItem(lift_id_to_accept, datasource.getSetting(Setting.UserName), datasource.getSetting(Setting.UserID));
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

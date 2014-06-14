@@ -10,6 +10,7 @@ import org.json.JSONException;
 import com.example.pickmeat.DataAccess.DataSource;
 import com.example.pickmeat.DataAccess.Setting;
 import com.example.pickmeat.DataAccessApp42.DataSourceApp42;
+import com.example.pickmeat.DataAccessApp42.LiftItem;
 
 import android.location.Criteria;
 import android.location.Location;
@@ -102,9 +103,6 @@ public class NewLiftRequest extends Activity  implements LocationListener {
 
 		TimePicker myTimePicker = (TimePicker) findViewById(R.id.editTextTimePicker);
 	    myTimePicker.setIs24HourView(true);
-//	    myTimePicker.setCurrentHour(currentHour);
-//	    myTimePicker.setCurrentMinute(currentHour);
-//        hookSaveButtonEvents();
 	}
 
 
@@ -128,17 +126,25 @@ public class NewLiftRequest extends Activity  implements LocationListener {
 						callingThreadHandler.post(new Runnable() {
 							@Override
 							public void run() {
-								callback.onSaveLift(false);
+								callback.onSaveLift(false, "Please enter where you want to go");
 							}
 						});
 					}
 					else {
-			    		datasourceapp42.createLiftItem(newTime, location.getLatitude(), location.getLongitude(), to.getText().toString(), datasource.getSetting(Setting.UserName), datasource.getSetting(Setting.UserID)+"_ID", "", "", "Free");
+						LiftItem liftitem = datasourceapp42.createLiftItem(newTime, location.getLatitude(), location.getLongitude(), to.getText().toString(), datasource.getSetting(Setting.UserName), datasource.getSetting(Setting.UserID)+"_ID", "", "", "Free");
+						if(liftitem == null){
+							callingThreadHandler.post(new Runnable() {
+								@Override
+								public void run() {
+									callback.onSaveLift(false, "Error in saving location, Please try again");
+								}
+							});
+						}
 						datasource.setSetting(Setting.LastPickupLocation, to.getText().toString());
 			    		callingThreadHandler.post(new Runnable() {
 							@Override
 							public void run() {
-								callback.onSaveLift(true);
+								callback.onSaveLift(true, "");
 							}
 						});
 					}
@@ -152,14 +158,14 @@ public class NewLiftRequest extends Activity  implements LocationListener {
     	
     }
     
-    private void onSaveLift(boolean success){
+    private void onSaveLift(boolean success, String msg){
 		if(success){
 			Intent intent = new Intent(NewLiftRequest.this, MainActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
 		} else {
 			new AlertDialog.Builder(NewLiftRequest.this).setTitle("Unable to save request")
-            .setMessage("Please enter where you want to go")
+            .setMessage(msg)
             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                          dialog.cancel();
