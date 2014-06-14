@@ -26,11 +26,16 @@ public class LiftListAdapter extends BaseExpandableListAdapter {
     Context context; 
     int layoutResourceId;  
     ArrayList<LocationPool> locations;
+    int view_mode;
+    public static int ACCEPT_MODE = 1;
+    public static int CANCEL_MODE = 2;
+    public static int DENY_MODE = 3;
     
-    public LiftListAdapter(Context context, ArrayList<LocationPool> locations) {
+    public LiftListAdapter(Context context, ArrayList<LocationPool> locations, int view_mode) {
 //        super(context, layoutResourceId, data);
         this.context = context;
         this.locations = locations;
+        this.view_mode = view_mode;
     }
 
     @Override
@@ -55,6 +60,7 @@ public class LiftListAdapter extends BaseExpandableListAdapter {
      pagerAdapter.lift = lift;
      pagerAdapter.groupPosition = groupPosition;
      pagerAdapter.childPosition = childPosition;
+     pagerAdapter.view_mode = view_mode;
      ViewPager pager = (ViewPager) view.findViewById(R.id.viewPager);
      pager.setAdapter (pagerAdapter);
      pager.setCurrentItem(0);
@@ -114,6 +120,7 @@ public class LiftListAdapter extends BaseExpandableListAdapter {
     	public Lift lift;
         public int groupPosition;
         public int childPosition;
+        int view_mode;  
 
 
         public int getCount() {
@@ -143,17 +150,26 @@ public class LiftListAdapter extends BaseExpandableListAdapter {
 	               	 ((TextView)view.findViewById(R.id.txtTime)).setText(DataAccessApp42.getHourMinuteStringFromDate(lift.time));
                         break;
                 case 1:
-                    view = inflater.inflate (R.layout.widget_lift_item_accept, null);
-//               	 	Toast.makeText(collection.getContext(), "creating view_2 for "+meal.title, Toast.LENGTH_SHORT).show();
-	               	 acceptView = (TextView) view.findViewById(R.id.acceptView);
+                	if (view_mode == LiftListAdapter.ACCEPT_MODE){
+                        view = inflater.inflate (R.layout.widget_lift_item_accept, null);
+//                   	 	Toast.makeText(collection.getContext(), "creating view_2 for "+meal.title, Toast.LENGTH_SHORT).show();
+    	               	 acceptView = (TextView) view.findViewById(R.id.acceptView);            		
+                	} else if (view_mode == LiftListAdapter.CANCEL_MODE){
+                        view = inflater.inflate (R.layout.widget_lift_item_cancel, null);
+//                   	 	Toast.makeText(collection.getContext(), "creating view_2 for "+meal.title, Toast.LENGTH_SHORT).show();
+    	               	 acceptView = (TextView) view.findViewById(R.id.cancelView);            		
+                	} else if (view_mode == LiftListAdapter.DENY_MODE){
+                        view = inflater.inflate (R.layout.widget_lift_item_deny, null);
+//                   	 	Toast.makeText(collection.getContext(), "creating view_2 for "+meal.title, Toast.LENGTH_SHORT).show();
+    	               	 acceptView = (TextView) view.findViewById(R.id.denyView);            		
+                	}
+
 	               	 int[] tag2_array = new int[2]; 
 	               	 tag2_array[0] = groupPosition;
 	               	 tag2_array[1] = childPosition;
 	               	 acceptView.setTag(tag2_array);
                         break;
                 }
-
-        
                 ((ViewPager) collection).addView(view, 0);
 
                 return view;

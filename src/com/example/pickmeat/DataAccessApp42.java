@@ -216,14 +216,13 @@ public class DataSourceApp42 {
 			}
 	  }
 
-	  public void deleteLiftItem(LiftItem liftItem) {
-	    String id = liftItem.getId();
-	    Storage response = storageService.findDocumentByKeyValue(DATABASE_NAME, COLLECTION_NAME, DataHelperApp42.LIFT_COLUMN_ID, id);
+	  public void deleteLiftItem(String lift_id) {
+	    Storage response = storageService.findDocumentByKeyValue(DATABASE_NAME, COLLECTION_NAME, DataHelperApp42.LIFT_COLUMN_ID, lift_id);
 	    if (response.isResponseSuccess()) {
 			ArrayList<Storage.JSONDocument> jsonDocList = response.getJsonDocList();
 			App42Response app42response = (App42Response) storageService.deleteDocumentById(DATABASE_NAME, COLLECTION_NAME,jsonDocList.get(0).getDocId());
 			if (app42response.isResponseSuccess()) {
-				System.out.println("Lift item deleted with id: " + id);
+				System.out.println("Lift item deleted with id: " + lift_id);
 			}
 		} 
 	  }
@@ -241,6 +240,24 @@ public class DataSourceApp42 {
 		    values.put(DataHelperApp42.LIFT_COLUMN_LIFTEE_ID, liftItem.getLifteeId());
 		    values.put(DataHelperApp42.LIFT_COLUMN_LIFTOR, liftor);
 		    values.put(DataHelperApp42.LIFT_COLUMN_LIFTOR_ID, liftor_id);
+		    values.put(DataHelperApp42.LIFT_COLUMN_TYPE, liftItem.getType());
+		    
+		    Storage response = storageService.updateDocumentByKeyValue(DATABASE_NAME, COLLECTION_NAME, DataHelperApp42.LIFT_COLUMN_ID, lift_id, values);
+	  }
+
+	  public void denyLiftItem(String lift_id) throws JSONException {
+		  	LiftItem liftItem = getLiftItem(lift_id);
+		    System.out.println("Lift item denied with id: " + liftItem.getId());
+		  	JSONObject values = new JSONObject();
+		    values.put(DataHelperApp42.LIFT_COLUMN_ID, liftItem.getId());
+		    values.put(DataHelperApp42.LIFT_COLUMN_TIME, liftItem.getTimeString());
+		    values.put(DataHelperApp42.LIFT_COLUMN_FROM_LAT, liftItem.getFromLat());
+		    values.put(DataHelperApp42.LIFT_COLUMN_FROM_LONG, liftItem.getFromLong());
+		    values.put(DataHelperApp42.LIFT_COLUMN_TO, liftItem.getTo());
+		    values.put(DataHelperApp42.LIFT_COLUMN_LIFTEE, liftItem.getLiftee());
+		    values.put(DataHelperApp42.LIFT_COLUMN_LIFTEE_ID, liftItem.getLifteeId());
+		    values.put(DataHelperApp42.LIFT_COLUMN_LIFTOR, "");
+		    values.put(DataHelperApp42.LIFT_COLUMN_LIFTOR_ID, "");
 		    values.put(DataHelperApp42.LIFT_COLUMN_TYPE, liftItem.getType());
 		    
 		    Storage response = storageService.updateDocumentByKeyValue(DATABASE_NAME, COLLECTION_NAME, DataHelperApp42.LIFT_COLUMN_ID, lift_id, values);

@@ -117,17 +117,17 @@ public class MainActivity extends Activity implements LocationListener {
         
 		yourHeader = (LinearLayout) findViewById(R.id.yourrequestsheader);
         yourLiftListView = (ExpandableListView) findViewById(R.id.YourLiftExpandableList);
-		yourLiftListAdapter = new LiftListAdapter(this, yourlocations);
+		yourLiftListAdapter = new LiftListAdapter(this, yourlocations, LiftListAdapter.CANCEL_MODE);
 		yourLiftListView.setAdapter(yourLiftListAdapter);
 		 
 		acceptedHeader = (LinearLayout) findViewById(R.id.acceptedrequestsheader);
 		acceptedLiftListView = (ExpandableListView) findViewById(R.id.AcceptedLiftExpandableList);
-		acceptedLiftListAdapter = new LiftListAdapter(this, acceptedlocations);
+		acceptedLiftListAdapter = new LiftListAdapter(this, acceptedlocations, LiftListAdapter.DENY_MODE);
 		acceptedLiftListView.setAdapter(acceptedLiftListAdapter);
 
 		pendingHeader = (LinearLayout) findViewById(R.id.pendingrequestsheader);
 		pendingLiftListView = (ExpandableListView) findViewById(R.id.PendingLiftExpandableList);
-		pendingLiftListAdapter = new LiftListAdapter(this, pendinglocations);
+		pendingLiftListAdapter = new LiftListAdapter(this, pendinglocations, LiftListAdapter.ACCEPT_MODE);
 		pendingLiftListView.setAdapter(pendingLiftListAdapter);
 
 		//expand all Groups
@@ -331,7 +331,7 @@ public class MainActivity extends Activity implements LocationListener {
 					callingThreadHandler.post(new Runnable() {
 						@Override
 						public void run() {
-							callback.onAcceptLift(groupPosition, childPosition);
+							callback.loadData();
 						}
 					});
 
@@ -343,12 +343,70 @@ public class MainActivity extends Activity implements LocationListener {
 		}.start();
     	
     }
-    
-    private void onAcceptLift(int groupPosition, int childPosition){
-        loadData();
+
+    public void cancelLift(View view) {
+    	final MainActivity callback = this;
+    	final Handler callingThreadHandler = new Handler();
+		final int[] tag_array = (int [])view.getTag();
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+				   	final int groupPosition = tag_array[0];
+				   	final int childPosition = tag_array[1];
+
+				   	String lift_id_to_cancel = yourLiftListAdapter.locations.get(groupPosition).liftList.get(childPosition).lift_id;
+					datasourceapp42.deleteLiftItem(lift_id_to_cancel);
+					callingThreadHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							callback.loadData();
+						}
+					});
+
+				} catch (final Exception ex) {
+					//
+					ex.printStackTrace();
+				}
+			}
+		}.start();
+    	
+    }
+	
+    public void denyLift(View view) {
+    	final MainActivity callback = this;
+    	final Handler callingThreadHandler = new Handler();
+		final int[] tag_array = (int [])view.getTag();
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+				   	final int groupPosition = tag_array[0];
+				   	final int childPosition = tag_array[1];
+
+				   	String lift_id_to_deny = acceptedLiftListAdapter.locations.get(groupPosition).liftList.get(childPosition).lift_id;
+				   	try {
+						datasourceapp42.denyLiftItem(lift_id_to_deny);
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					callingThreadHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							callback.loadData();
+						}
+					});
+
+				} catch (final Exception ex) {
+					//
+					ex.printStackTrace();
+				}
+			}
+		}.start();
+    	
     }
 
-	
     @Override
     protected void onResume() {
 //      datasource.open();

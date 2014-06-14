@@ -42,22 +42,24 @@ public final class R {
         public static final int YourLiftExpandableList=0x7f090002;
         public static final int acceptView=0x7f09000e;
         public static final int acceptedrequestsheader=0x7f090003;
-        public static final int action_settings=0x7f090016;
+        public static final int action_settings=0x7f090018;
         public static final int addRequest=0x7f090000;
         public static final int autoCompleteTextViewTo=0x7f09000b;
+        public static final int cancelView=0x7f09000f;
+        public static final int denyView=0x7f090010;
         public static final int editTextLastPickupLocation=0x7f090008;
         public static final int editTextTimePicker=0x7f09000c;
         public static final int editTextUserID=0x7f090009;
         public static final int editTextUserName=0x7f090007;
-        public static final int liftMidLayout=0x7f09000f;
-        public static final int location=0x7f090015;
+        public static final int liftMidLayout=0x7f090011;
+        public static final int location=0x7f090017;
         public static final int pendingrequestsheader=0x7f090005;
-        public static final int recipeClockLayout=0x7f090013;
+        public static final int recipeClockLayout=0x7f090015;
         public static final int saveButton=0x7f09000a;
-        public static final int txtFrom=0x7f090011;
-        public static final int txtLiftee=0x7f090010;
-        public static final int txtTime=0x7f090014;
-        public static final int txtTo=0x7f090012;
+        public static final int txtFrom=0x7f090013;
+        public static final int txtLiftee=0x7f090012;
+        public static final int txtTime=0x7f090016;
+        public static final int txtTo=0x7f090014;
         public static final int viewPager=0x7f09000d;
         public static final int yourrequestsheader=0x7f090001;
     }
@@ -68,8 +70,10 @@ public final class R {
         public static final int widget_add_lift_button=0x7f030003;
         public static final int widget_lift_item=0x7f030004;
         public static final int widget_lift_item_accept=0x7f030005;
-        public static final int widget_lift_item_one=0x7f030006;
-        public static final int widget_location=0x7f030007;
+        public static final int widget_lift_item_cancel=0x7f030006;
+        public static final int widget_lift_item_deny=0x7f030007;
+        public static final int widget_lift_item_one=0x7f030008;
+        public static final int widget_location=0x7f030009;
     }
     public static final class menu {
         public static final int main=0x7f080000;
