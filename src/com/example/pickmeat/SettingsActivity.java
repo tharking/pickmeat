@@ -80,7 +80,8 @@ public class SettingsActivity extends Activity {
         		datasource.setSetting(Setting.UserID, userID.getText().toString());
            		
         		Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-	        	startActivity(intent);
+    			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    			startActivity(intent);
             }
         });
 	}
