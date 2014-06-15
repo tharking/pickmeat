@@ -1,5 +1,8 @@
 package com.example.pickmeat;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,7 +16,7 @@ import android.util.Log;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class DataAccess {
 	private static final String DATABASE_NAME = "lift_database.db";
-	private static final int DATABASE_VERSION = 13;
+	private static final int DATABASE_VERSION = 14;
 	public static final boolean DEBUG_MODE = true;
 	
 	  public enum Setting {
@@ -98,9 +101,11 @@ public class DataSource {
 	  
 	  public void fillSettings()
 	  {
-		  setSetting(Setting.UserName, "KamalC");
-		  setSetting(Setting.UserID, "kachoudh");
-		  setSetting(Setting.LastPickupLocation, "Kondapur");
+		  setSetting(Setting.UserName, "");
+	  	  Calendar rightNow = Calendar.getInstance();
+		  SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		  setSetting(Setting.UserID, dateFormat.format(rightNow.getTime())+Math.random());
+		  setSetting(Setting.LastPickupLocation, "");
 	  }
 
 	  public void setSetting(Setting setting, String value) {

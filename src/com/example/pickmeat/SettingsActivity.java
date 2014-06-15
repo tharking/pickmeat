@@ -41,10 +41,11 @@ public class SettingsActivity extends Activity {
 
 		EditText lastPickupLocation = (EditText) findViewById(R.id.editTextLastPickupLocation);
 		lastPickupLocation.setText(datasource.getSetting(Setting.LastPickupLocation));
+		lastPickupLocation.setVisibility(View.GONE);
 		
 		EditText userID = (EditText) findViewById(R.id.editTextUserID);
 		userID.setText(datasource.getSetting(Setting.UserID));
-
+		userID.setVisibility(View.GONE);
 	}
 
 	private void hookSaveButtonEvents() {

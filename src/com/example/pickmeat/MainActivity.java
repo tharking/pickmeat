@@ -70,6 +70,13 @@ public class MainActivity extends Activity implements LocationListener {
 		DataAccess dataAccess = new DataAccess();
     	datasource = dataAccess.new DataSource(this);
         datasource.open();
+        
+        if(datasource.getSetting(Setting.UserName).contentEquals("")){
+			Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+			startActivity(intent);
+    		return;
+        }
 
 		DataAccessApp42 dataAccessApp42 = new DataAccessApp42();
         datasourceapp42 = dataAccessApp42.new DataSourceApp42(this);
@@ -114,8 +121,6 @@ public class MainActivity extends Activity implements LocationListener {
     	if (DataAccess.DEBUG_MODE){
             LinearLayout locationheader = (LinearLayout) findViewById(R.id.locationheader);
             locationheader.setVisibility(View.VISIBLE);
-            MenuItem dummyrequests = (MenuItem) findViewById(R.id.action_dummy_requests);
-            dummyrequests.setVisible(true);
     	}
         locationManager.requestLocationUpdates(provider, 1000, 0, this); 		
         //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
@@ -177,6 +182,9 @@ public class MainActivity extends Activity implements LocationListener {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+    	if (DataAccess.DEBUG_MODE){
+    		menu.getItem(1).setVisible(true);
+    	}
 		return true;
 	}
 	
