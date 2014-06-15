@@ -16,23 +16,30 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+         >
         <activity
             android:name="com.example.pickmeat.MainActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
+            android:name="com.example.pickmeat.SplashScreen"
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>        <activity
             android:name="com.example.pickmeat.NewLiftRequest"
-            android:label="New Pickup Request" >
+            android:label="New Pickup Request" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="com.example.pickmeat.SettingsActivity"
-            android:label="Your Name" >
+            android:label="Your Name" 
+            android:screenOrientation="portrait">
         </activity>
         
     </application>

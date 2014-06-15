@@ -72,7 +72,7 @@ public class MainActivity extends Activity implements LocationListener {
         datasource.open();
         
         if(datasource.getSetting(Setting.UserName).contentEquals("")){
-			Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        	Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 			startActivity(intent);
     		return;
