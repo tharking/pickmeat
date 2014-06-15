@@ -14,7 +14,8 @@ import android.util.Log;
 public class DataAccess {
 	private static final String DATABASE_NAME = "lift_database.db";
 	private static final int DATABASE_VERSION = 13;
-
+	public static final boolean DEBUG_MODE = true;
+	
 	  public enum Setting {
 		  UserName,
 		  UserID,

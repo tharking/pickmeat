@@ -7,6 +7,7 @@ import java.util.List;
 import org.json.JSONException;
 
 import com.example.pickmeat.DataAccessApp42;
+import com.example.pickmeat.DataAccessApp42;
 import com.example.pickmeat.DataAccess.DataSource;
 import com.example.pickmeat.DataAccess.Setting;
 import com.example.pickmeat.DataAccessApp42.DataHelperApp42;
@@ -106,6 +107,12 @@ public class MainActivity extends Activity implements LocationListener {
         else {
         	Log.d("Location","lat "+location.getLatitude());
         	Log.d("Location","lat "+location.getLongitude());
+        	if (DataAccess.DEBUG_MODE){
+                LinearLayout locationheader = (LinearLayout) findViewById(R.id.locationheader);
+                locationheader.setVisibility(View.VISIBLE);
+                TextView locationheadertext = (TextView) findViewById(R.id.locationheadertext);
+                locationheadertext.setText(location.getLatitude()+", "+location.getLongitude());            
+        	}
         }
 
         
