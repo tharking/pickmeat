@@ -15,7 +15,7 @@
 	        android:textColor="#FFFFFF"
 	        android:padding="2dp"
 	    	android:gravity="left"
-	        android:text="CANCEL REQUEST"
+	        android:text="CANCEL\nREQUEST"
 	        android:onClick="cancelLift"
 	        android:background="#BB0A8E" />
            

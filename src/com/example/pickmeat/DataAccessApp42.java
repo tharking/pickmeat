@@ -363,6 +363,7 @@ public class LiftItem {
 		 _to = to;
 		 _liftee = liftee;
 		 _liftee_id = liftee_id;
+		 _liftor = liftor;
 		 _liftor_id = liftor_id;
 		 _type = type;
 	  }

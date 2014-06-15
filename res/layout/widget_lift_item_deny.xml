@@ -15,7 +15,7 @@
 	        android:textColor="#FFFFFF"
 	        android:padding="2dp"
 	    	android:gravity="left"
-	        android:text="DENY LIFT"
+	        android:text="DENY\nLIFT"
 	        android:onClick="denyLift"
 	        android:background="#BB0A8E" />
            

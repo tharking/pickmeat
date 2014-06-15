@@ -6,6 +6,20 @@
     android:layout_height="fill_parent"
     android:background="@color/page_bg"
     android:padding="10dp">
+
+    <ImageView android:id="@+id/imgIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="fitXY" 
+        android:onClick="loadRecipe"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/pickmeat_splash" 
+        />
     
     <LinearLayout android:id="@+id/liftMidLayout"
 	    android:orientation="vertical" 
@@ -13,7 +27,6 @@
 	    android:layout_height="fill_parent"
 	    android:layout_weight="1"
 	    android:gravity="left"
-        android:onClick="loadRecipe"
 	   	android:paddingRight="5dp"
 	    android:paddingLeft="5dp"
 	    >
@@ -22,31 +35,36 @@
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:text="XYZ"
-	    android:textColor="@color/page_fg"
+	    	android:textColor="@color/page_fg"
 		    android:textSize="18sp"
 		    android:textStyle="bold"/>
-		
-		<TextView android:id="@+id/txtFrom"
-		    android:layout_width="match_parent"
-		    android:layout_height="16sp"
-		    android:text="XYZ"
-	    android:textColor="@color/page_fg"
-		    android:textSize="12sp"
-		    android:textStyle="italic"/>
 		<TextView android:id="@+id/txtTo"
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:text="XYZ"
-	    android:textColor="@color/page_fg"
-		    android:textSize="12sp"
+	    	android:textColor="@color/page_fg"
+		    android:textSize="18sp"
 		    android:textStyle="bold"/>
-	</LinearLayout>
+		<TextView android:id="@+id/txtTo2"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:text="XYZ"
+	    	android:textColor="@color/page_fg"
+		    android:textSize="18sp"
+		    android:textStyle="italic"/>
+		<TextView android:id="@+id/txtLiftor"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:text="XYZ"
+	    	android:textColor="@color/page_fg"
+		    android:textSize="18sp"
+		    android:textStyle="italic"/>		
+			</LinearLayout>
     <LinearLayout android:id="@+id/recipeClockLayout"
 	    android:orientation="vertical" 
 	    android:layout_width="50dp"
 	    android:layout_height="wrap_content"
 	    android:gravity="left"
-        android:onClick="loadRecipe"
 	    >
 	<TextView android:id="@+id/txtTime"
 	    android:layout_width="50dp"

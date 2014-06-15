@@ -99,7 +99,7 @@ public class LiftListAdapter extends BaseExpandableListAdapter {
       view = inf.inflate(R.layout.widget_location, null);
      }
      ((TextView) view.findViewById(R.id.location)).setText(location.location + " (" + location.liftList.size() + ")");
-      
+    
      return view;
     }
     
@@ -139,16 +139,38 @@ public class LiftListAdapter extends BaseExpandableListAdapter {
                     view = inflater.inflate (R.layout.widget_lift_item_one, null);
                     TextView txtLiftee = (TextView)view.findViewById(R.id.txtLiftee);
                	 	txtLiftee.setText(lift.liftee);
+                    TextView txtLiftor = (TextView)view.findViewById(R.id.txtLiftor);
+                    if(lift.liftor.contentEquals("")){
+               	 		txtLiftor.setText("Pending");
+                    } else {
+                    	txtLiftor.setText("Accepted by "+lift.liftor);
+                    }
+                    TextView txtTo = (TextView)view.findViewById(R.id.txtTo);
+               	 	txtTo.setText(lift.to);
+                    TextView txtTo2 = (TextView)view.findViewById(R.id.txtTo2);
+               	 	txtTo2.setText("needs a drop at "+lift.to);
   //             	 	Toast.makeText(collection.getContext(), "creating view_1 for "+meal.title, Toast.LENGTH_SHORT).show();
                	 	View midLayout = (View)view.findViewById(R.id.liftMidLayout);
 	               	 int[] tagT_array = new int[2]; 
 	               	 tagT_array[0] = groupPosition;
 	               	 tagT_array[1] = childPosition;
 	               	 midLayout.setTag(tagT_array);
-	               	 ((TextView)view.findViewById(R.id.txtFrom)).setText(lift.from_lat+"-"+lift.from_long);
-	               	 ((TextView)view.findViewById(R.id.txtTo)).setText(lift.to);
+	               	 
 	               	 ((TextView)view.findViewById(R.id.txtTime)).setText(DataAccessApp42.getHourMinuteStringFromDate(lift.time));
-                        break;
+	               	 
+                	if (view_mode == LiftListAdapter.ACCEPT_MODE){
+                		txtLiftor.setVisibility(View.GONE);
+                		txtTo.setVisibility(View.GONE);
+                	} else if (view_mode == LiftListAdapter.CANCEL_MODE){
+                		txtLiftee.setVisibility(View.GONE);
+                		txtTo2.setVisibility(View.GONE);
+//                		Toast.makeText(collection.getContext(), "Your request: liftor - "+lift.liftor, Toast.LENGTH_SHORT).show();
+                	} else if (view_mode == LiftListAdapter.DENY_MODE){
+                		txtLiftor.setVisibility(View.GONE);
+                		txtTo.setVisibility(View.GONE);
+//                		Toast.makeText(collection.getContext(), "Your request: liftor - "+lift.liftor, Toast.LENGTH_SHORT).show();
+                	}
+                     break;
                 case 1:
                 	if (view_mode == LiftListAdapter.ACCEPT_MODE){
                         view = inflater.inflate (R.layout.widget_lift_item_accept, null);

@@ -35,6 +35,7 @@ import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements LocationListener {
 
@@ -144,8 +145,6 @@ public class MainActivity extends Activity implements LocationListener {
 
         loadData();
 
-        //expand all Groups
-		expandFirstGroup();
 
 	}
 
@@ -203,10 +202,18 @@ public class MainActivity extends Activity implements LocationListener {
 	}
     //method to expand all groups
     private void expandAll() {
-//      int count = liftListAdapter.getGroupCount();
-//      for (int i = 0; i < count; i++){
-//         liftListView.expandGroup(i);
-//      }
+      int count = yourLiftListAdapter.getGroupCount();
+      for (int i = 0; i < count; i++){
+         yourLiftListView.expandGroup(i);
+      }
+      count = acceptedLiftListAdapter.getGroupCount();
+      for (int i = 0; i < count; i++){
+         acceptedLiftListView.expandGroup(i);
+      }
+      count = pendingLiftListAdapter.getGroupCount();
+      if(count > 0){
+         pendingLiftListView.expandGroup(0);
+      }
     }
     //method to expand all groups
     private void expandFirstGroup() {
@@ -229,10 +236,10 @@ public class MainActivity extends Activity implements LocationListener {
 			    	twelvehourlater.add(Calendar.HOUR, 12);
 			    	Query q0 = QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_LIFTEE_ID, datasource.getSetting(Setting.UserID), Operator.NOT_EQUALS);   
 			    	Query q1 = QueryBuilder.compoundOperator(q0, Operator.AND, QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_LIFTOR, "", Operator.EQUALS));   
-			    	Query q2 = QueryBuilder.compoundOperator(q1, Operator.AND, QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_FROM_LAT, (location.getLatitude()-0.01), Operator.GREATER_THAN));   
-			    	Query q3 = QueryBuilder.compoundOperator(q2, Operator.AND, QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_FROM_LAT, (location.getLatitude()+0.01), Operator.LESS_THAN));   
-			    	Query q4 = QueryBuilder.compoundOperator(q3, Operator.AND, QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_FROM_LONG, (location.getLongitude()-0.01), Operator.GREATER_THAN));   
-			    	Query q5 = QueryBuilder.compoundOperator(q4, Operator.AND, QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_FROM_LONG, (location.getLongitude()+0.01), Operator.LESS_THAN));
+			    	Query q2 = QueryBuilder.compoundOperator(q1, Operator.AND, QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_FROM_LAT, (location.getLatitude()-0.1), Operator.GREATER_THAN));   
+			    	Query q3 = QueryBuilder.compoundOperator(q2, Operator.AND, QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_FROM_LAT, (location.getLatitude()+0.1), Operator.LESS_THAN));   
+			    	Query q4 = QueryBuilder.compoundOperator(q3, Operator.AND, QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_FROM_LONG, (location.getLongitude()-0.1), Operator.GREATER_THAN));   
+			    	Query q5 = QueryBuilder.compoundOperator(q4, Operator.AND, QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_FROM_LONG, (location.getLongitude()+0.1), Operator.LESS_THAN));
 			    	Query q6 = QueryBuilder.compoundOperator(q5, Operator.AND, QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_TIME, DataAccessApp42.getStringFromDate(onehourback), Operator.GREATER_THAN));
 			    	Query q7 = QueryBuilder.compoundOperator(q6, Operator.AND, QueryBuilder.build(DataHelperApp42.LIFT_COLUMN_TIME, DataAccessApp42.getStringFromDate(twelvehourlater), Operator.LESS_THAN));
 					final List<DataAccessApp42.LiftItem> pendingliftitems = datasourceapp42.getLiftsByCriteria(q7);
@@ -301,6 +308,7 @@ public class MainActivity extends Activity implements LocationListener {
     		pendingHeader.setVisibility(View.GONE);
     	}
     	progressBar.setVisibility(View.GONE);
+    	expandAll();
     }
     
     private void addLiftToLocation(Lift lift, ArrayList<LocationPool> locations){
@@ -365,6 +373,7 @@ public class MainActivity extends Activity implements LocationListener {
     public void acceptLift(View view) {
     	final MainActivity callback = this;
     	final Handler callingThreadHandler = new Handler();
+    	final Context context = view.getContext();
 		final int[] tag_array = (int [])view.getTag();
     	progressBar.setVisibility(View.VISIBLE);
 		new Thread() {
