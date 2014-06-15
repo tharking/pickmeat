@@ -107,15 +107,16 @@ public class MainActivity extends Activity implements LocationListener {
         else {
         	Log.d("Location","lat "+location.getLatitude());
         	Log.d("Location","lat "+location.getLongitude());
-        	if (DataAccess.DEBUG_MODE){
-                LinearLayout locationheader = (LinearLayout) findViewById(R.id.locationheader);
-                locationheader.setVisibility(View.VISIBLE);
-                TextView locationheadertext = (TextView) findViewById(R.id.locationheadertext);
-                locationheadertext.setText(location.getLatitude()+", "+location.getLongitude());            
-        	}
+            TextView locationheadertext = (TextView) findViewById(R.id.locationheadertext);
+            locationheadertext.setText("You are at: "+location.getLatitude()+", "+location.getLongitude());            
         }
 
-        
+    	if (DataAccess.DEBUG_MODE){
+            LinearLayout locationheader = (LinearLayout) findViewById(R.id.locationheader);
+            locationheader.setVisibility(View.VISIBLE);
+            MenuItem dummyrequests = (MenuItem) findViewById(R.id.action_dummy_requests);
+            dummyrequests.setVisible(true);
+    	}
         locationManager.requestLocationUpdates(provider, 1000, 0, this); 		
         //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 		//locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
@@ -186,6 +187,9 @@ public class MainActivity extends Activity implements LocationListener {
 	    	case R.id.action_settings:
 	    		startActivity(new Intent(this, SettingsActivity.class));
 	    		return true;
+	    	case R.id.action_dummy_requests:
+	    		generateDummyLift();
+				return true;
 	    }
 	  return false;
 	}
@@ -320,6 +324,36 @@ public class MainActivity extends Activity implements LocationListener {
     	startActivity(intent);
 	}
 
+    public void generateDummyLift() {
+    	final MainActivity callback = this;
+    	final Handler callingThreadHandler = new Handler();
+    	progressBar.setVisibility(View.VISIBLE);
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+				   	try {
+						datasourceapp42.fillLift(location.getLatitude(), location.getLongitude());
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					callingThreadHandler.post(new Runnable() {
+						@Override
+						public void run() {
+							callback.loadData();
+						}
+					});
+
+				} catch (final Exception ex) {
+					//
+					ex.printStackTrace();
+				}
+			}
+		}.start();
+    	
+    }
+
     public void acceptLift(View view) {
     	final MainActivity callback = this;
     	final Handler callingThreadHandler = new Handler();
@@ -422,13 +456,13 @@ public class MainActivity extends Activity implements LocationListener {
 
     @Override
     protected void onResume() {
-//      datasource.open();
+      datasource.open();
       super.onResume();
     }
 
     @Override
     protected void onPause() {
-//      datasource.close();
+      datasource.close();
       super.onPause();
     }
 

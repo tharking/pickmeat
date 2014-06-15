@@ -155,34 +155,28 @@ public class DataSourceApp42 {
 	  
 	  public void fillData() throws JSONException
 	  {
-		  fillLift();
+		  fillLift(17.366, 78.476);
 	  }
 	  
-	  public void fillLift() throws JSONException
+	  public void fillLift(Double lat, Double lon) throws JSONException
 	  {
-		  	  Calendar rightNow = Calendar.getInstance();
-		  	  rightNow.add(Calendar.MINUTE, 20);
-		  	  createLiftItem(rightNow, 17.366, 78.476, "Miyapur", "Kamal", "Kamal_ID", "", "", "Free");
-		  	  rightNow.add(Calendar.MINUTE, 20);
-		  	  createLiftItem(rightNow, 17.366, 78.476, "Hafeezpet", "Pankaj", "Pankaj_ID", "", "", "Free");
-		  	  rightNow.add(Calendar.MINUTE, 20);
-			  createLiftItem(rightNow, 17.366, 78.476, "Kondapur", "Manoj", "Manoj_ID", "", "", "Dutch");
-		  	  rightNow.add(Calendar.MINUTE, 20);
-			  createLiftItem(rightNow, 17.366, 78.476, "Miyapur", "Anil", "Anil_ID", "", "", "Free");
-		  	  rightNow.add(Calendar.MINUTE, 20);
-			  createLiftItem(rightNow, 17.366, 78.476, "Kondapur", "Mahiram", "Mahiram_ID", "", "", "Free");
-		  	  rightNow.add(Calendar.MINUTE, 20);
-			  createLiftItem(rightNow, 17.366, 78.476, "Miyapur", "Mukesh", "Mukesh_ID", "", "", "Free");
-		  	  rightNow.add(Calendar.MINUTE, 20);
-			  createLiftItem(rightNow, 17.366, 78.476, "Miyapur", "Ganpat", "Ganpat_ID", "", "", "Dutch");
+	  	  Calendar rightNow = Calendar.getInstance();
+	  	  rightNow.add(Calendar.MINUTE, 20);
+	  	  createLiftItem(rightNow, lat, lon, "Miyapur", "Kamal", "Kamal_ID", "", "", "Free");
+	  	  rightNow.add(Calendar.MINUTE, 20);
+	  	  createLiftItem(rightNow, lat, lon, "Hafeezpet", "Pankaj", "Pankaj_ID", "", "", "Free");
+	  	  rightNow.add(Calendar.MINUTE, 20);
+		  createLiftItem(rightNow, lat, lon, "Kondapur", "Manoj", "Manoj_ID", "", "", "Dutch");
+	  	  rightNow.add(Calendar.MINUTE, 20);
+		  createLiftItem(rightNow, lat, lon, "Miyapur", "Anil", "Anil_ID", "", "", "Free");
+	  	  rightNow.add(Calendar.MINUTE, 20);
+		  createLiftItem(rightNow, lat, lon, "Kondapur", "Mahiram", "Mahiram_ID", "", "", "Free");
+	  	  rightNow.add(Calendar.MINUTE, 20);
+		  createLiftItem(rightNow, lat, lon, "Miyapur", "Mukesh", "Mukesh_ID", "", "", "Free");
+	  	  rightNow.add(Calendar.MINUTE, 20);
+		  createLiftItem(rightNow, lat, lon, "Miyapur", "Ganpat", "Ganpat_ID", "", "", "Dutch");
 	  }
 
-	  public void fillDummyLift() throws JSONException
-	  {
-		  	  Calendar rightNow = Calendar.getInstance();
-		  	  rightNow.add(Calendar.MINUTE, 20);
-		  	  createLiftItem(rightNow, 17.366, 78.476, "Miyapur", "Kamal", "Kamal_ID", "Dummy", "Dummy_ID", "Free");
-	  }
 
 	  public LiftItem createLiftItem(
 			  Calendar time,

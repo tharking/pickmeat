@@ -42,6 +42,7 @@ public final class R {
         public static final int YourLiftExpandableList=0x7f090003;
         public static final int acceptView=0x7f090011;
         public static final int acceptedrequestsheader=0x7f090004;
+        public static final int action_dummy_requests=0x7f09001c;
         public static final int action_settings=0x7f09001b;
         public static final int addRequest=0x7f090000;
         public static final int autoCompleteTextViewTo=0x7f09000e;
